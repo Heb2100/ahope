@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Session Name="/d/test/test.workspace">
+  <int Value="2" Name="m_selectedTab"/>
+  <wxString Value="/d/test/test.workspace" Name="m_workspaceName"/>
+  <TabInfoArray Name="TabInfoArray">
+    <TabInfo>
+      <wxString Value="/d/test/http_stream/main.c" Name="FileName"/>
+      <int Value="108" Name="FirstVisibleLine"/>
+      <int Value="121" Name="CurrentLine"/>
+      <wxArrayString Name="Bookmarks"/>
+      <IntVector Name="CollapsedFolds"/>
+    </TabInfo>
+    <TabInfo>
+      <wxString Value="/d/test/http_stream/http.h" Name="FileName"/>
+      <int Value="1" Name="FirstVisibleLine"/>
+      <int Value="13" Name="CurrentLine"/>
+      <wxArrayString Name="Bookmarks"/>
+      <IntVector Name="CollapsedFolds"/>
+    </TabInfo>
+    <TabInfo>
+      <wxString Value="/d/test/http_stream/http.c" Name="FileName"/>
+      <int Value="38" Name="FirstVisibleLine"/>
+      <int Value="55" Name="CurrentLine"/>
+      <wxArrayString Name="Bookmarks"/>
+      <IntVector Name="CollapsedFolds"/>
+    </TabInfo>
+  </TabInfoArray>
+  <SerializedObject Name="m_breakpoints">
+    <long Value="0" Name="Count"/>
+  </SerializedObject>
+  <wxString Value="*.c;*.cpp;*.cxx;*.cc;*.h;*.hpp;*.inc;*.mm;*.m;*.xrc;*.xml;*.json;*.sql;*.txt;*.plist;CMakeLists.txt;*.rc;*.iss" Name="m_findInFilesMask"/>
+</Session>

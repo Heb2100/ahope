@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeLite_Workspace Name="test" Database="" Version="10.0.0">
+  <Project Name="socket" Path="socket/socket.project" Active="No"/>
+  <Project Name="http" Path="http/http.project" Active="No"/>
+  <Project Name="test" Path="test/test.project" Active="No"/>
+  <Project Name="http_stream" Path="http_stream/http_stream.project" Active="No"/>
+  <Project Name="chat_thread" Path="chat_thread/chat_thread.project" Active="No"/>
+  <Project Name="chat_multi" Path="chat_multi/chat_multi.project" Active="No"/>
+  <Project Name="chat_select" Path="chat_select/chat_select.project" Active="Yes"/>
+  <BuildMatrix>
+    <WorkspaceConfiguration Name="Debug" Selected="yes">
+      <Environment/>
+      <Project Name="socket" ConfigName="Debug"/>
+      <Project Name="http" ConfigName="Debug"/>
+      <Project Name="test" ConfigName="Debug"/>
+      <Project Name="http_stream" ConfigName="Debug"/>
+      <Project Name="chat_thread" ConfigName="Debug"/>
+      <Project Name="chat_multi" ConfigName="Debug"/>
+      <Project Name="chat_select" ConfigName="Debug"/>
+    </WorkspaceConfiguration>
+    <WorkspaceConfiguration Name="Release" Selected="yes">
+      <Environment/>
+      <Project Name="socket" ConfigName="Release"/>
+      <Project Name="http" ConfigName="Release"/>
+      <Project Name="test" ConfigName="Release"/>
+      <Project Name="http_stream" ConfigName="Release"/>
+      <Project Name="chat_thread" ConfigName="Release"/>
+      <Project Name="chat_multi" ConfigName="Release"/>
+      <Project Name="chat_select" ConfigName="Release"/>
+    </WorkspaceConfiguration>
+  </BuildMatrix>
+</CodeLite_Workspace>

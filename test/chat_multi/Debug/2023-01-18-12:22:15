@@ -1,0 +1,18 @@
+socket id 5 generated
+socket id 6 generated
+msg from client 6 : 123
+msg from client 6 : 654
+msg from client 5 : 654
+msg from client 5 : 521
+msg from client 5 : 321
+msg from client 5 : 654
+msg from client 5 : 987
+socket id 5 disconnected
+socket id 7 generated
+msg from client 7 : 321
+msg from client 7 : 654
+msg from client 6 : 654
+msg from client 6 : 987
+msg from client 6 : 654
+msg from client 6 : 321
+server is closed

@@ -1,0 +1,386 @@
+- HTTP Protocol
+	- HyperTest Transfer Protocol. 네트워크 접근하여 HTML 파일 전송 프로토콜
+	- OSI 7계층
+		- Open System Interconnection. 네트워크 프로토콜 통신을 7계층 분리
+		- 물리 > 데이터링크 > 네트워크 > 전송 > 세션 > 표현 > 응용 계층
+	- Hypertext
+		- 하이퍼링크로 타 문서로 접근을 돕는 텍스트
+		- 하이퍼링크
+			- 하이퍼텍스트 문서 안에서 자료를 연결하는 고리
+			- URI는 URL, URN을 포함하는 개념. 
+	- Header
+		- 해당 메시지가 제공하는 기능
+		- General Header
+			- Date
+			- Pragma
+				- 캐시 제어. HTTP/1.0 전용
+			- Cache-Control
+				- 캐시를 제어 ex. no-cache, public, max-age, private, must-revalidate, no-store
+				- no-cache : 캐시를 저장하지만 사용시 확인을 받아야함 
+				- max-age : 캐시 유효시간 명시
+			- Transfer-Endcoding
+				- Body 내용 압축 방식 지정 ex. chunked, compress, deflate, gzip, identity...
+				- Chunked : 나눠 보냄
+			- Upgrade
+			- Via
+			- Expires
+			- Allow
+				- 사용 가능한 HTTP 메소드방식. ex. GET, HEAD, POST
+			- Last-Modified 
+			- ETag
+			- Connection
+				- 클라이언트와 서버의 연결방식 
+				- HTTP/1.1은 keep-alive가 디폴트
+		- Request/Response Header
+			- Request line
+				- ex. GET /content/page1/ HTTP/1.1\n
+			- Host
+			- User-agent
+				- 클라이언트의 에이전트 정보. 브라우저에 맞는 정보를 전달. 
+				- ex. Mozilla/4.0, Windows NT5.1
+			- Referer
+				- 바로 직전에 머물렀던 웹 링크
+			- Accept
+				- 클라이언트 처리 가능 타입
+				- ex. */* : 모든 타입
+				- application/json : json타입
+			- Accept-charset
+				- 클라이언트 처리 가능 문자열 인코딩 방식
+			- Accept-language
+			- Accept-encoding
+				- 클라이언트 처리 가능 압축방식
+				- ex. gzip, deflate
+			- Content-location 
+			- Content-disposition
+			- Content-Security-Policy
+			- If-Modified-Since
+			- Authorization
+			- Origin
+			- Cookie
+				- 쿠키값. ex. attr1=value1;
+		- Response header
+			- Location
+				- 301, 302 상태코드일 때만 볼수 있음. 
+				- 서버의 응답이 다른 곳에 있다고 알려 주며 해당 위치(URI)를 지정.
+			- Server
+			- Age
+				- max-age 시간 내에서 얼마나 흘렀는지 초단위로 알려줌.
+			- Referrer-policiy
+			- WWW-Authenticate
+			- Proxy-Authenticate
+		- Entity header
+			 컨텐츠와 HTTP 본문에 대한 정보.
+			 - Content-Encoding
+				- 본문 리소스 압축방식
+				- transfer-encoding은 body의 압축
+			- Content-type
+				- 본문의 미디어 타입. ex. application/json, text/html
+			- Content-Length
+				- 본문의 길이.
+			- Content-language
+		- header의 예시
+			- 모든 문장은 \r \n으로 끝나야 함. 
+			- Header의 종료는 \n\n으로 표기.
+			- request 헤더
+				request line > Header > \n\n > Body 순서로 진행.
+				GET / HTTP/1.1
+				Host : www.msaleh.co.cc
+				User-Agent : Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.0.10)
+				Gecko/9042316 Firefox/3.0.10
+				Accept: */*
+				Connection:close
+			- response 헤더
+				HTTP status code > Header > \n\n > Body 순서로 진행.
+				HTTP/1.1 200 OK
+				Date: Sat, 09 may 2009 12:27:54 GMT
+				Server: Appache/2.2.11 (Unix)
+				Last-Modified: Thu, 12 feb 2009 15.29.42 GMT
+				Etag: "c3b-462ba63a46580"-gzip
+				Cache-Control: max-age=1200, private, proxy-revalidate, must-revalidate
+				Expires: Sat, 09 May 2009 12:47:54 GMT
+				Accept-Ranges: bytes
+				Content-Length:976
+				Content-Type:text/html
+		- 응답상태코드
+			- 100-109
+				- 요청 빋음
+			- 200-209
+				- 요청 받고 인식
+			- 300-309
+				- 요청 받고 추가작업
+			- 400-409
+				- 클라이언트 에러
+			- 500-509
+				- 서버 에러
+		- HTTP Method
+			- GET
+				- Header의 URL에 데이터가 담김
+				- 보안에 안 좋음
+			- POST
+				- Body 부분에 데이터가 담김
+				- 데이터가 크고 보안이 나음
+			- HEAD
+				- 헤더만 반환
+			- PUT
+				- 서버에게 변경 혹은 생성 요청
+			- DELETE
+				- URI 내용 삭제 요청
+			- TRACE
+				- 메시지의 이상 유무 추적
+			- OPTIONS
+				- 가능한 메소드 문의
+	- 특징
+		- 클라이언트 서버구조
+			- 클라이언트가 서버에 요청, 응답을 대기. 서버는 요청에 응답
+		- 무상태 프로토콜
+			- 서버가 클라이언트 요청을 저장하지 않아 요청을 반복해서 보내야함
+		- 비연결성
+			- 연결을 유지하지 않는게 기본이었으나 버전이 올라가며 keep-alive로 변경.
+	- 정보 유지 방법
+		- cookie
+			- 클라이언트에 정보 저장, 속도 우수
+		- session
+			- 서버에 정보 저장, 보안 우수
+	- HTTPS
+		- HyperTest Transfer Protocol SSL, 추가적인 보안 계층 존재
+	- 통신
+		- HTTP통신
+			- 클라이언트가 요청하고 서버가 응답하는 방식의 단방향 통신.
+			- 연결을 유지하지 않는게 기본이었으나 비용상 문제로 keep-alive로 연결 유지하게 변경.
+		- 소켓통신
+			- 클라이언트 서버 양쪽에서 서로 데이터 전달하는 방식의 양방향 통신으로  HTTP 통신에 비해 리소스 소모 큼
+			- 결국 HTTP는 소켓통신. 하지만 HTTP통신이 더 큰 범위를 표현.
+		
+- SSL
+	- Secure Socket Layer. 암호화 기반 인터넷 보안 프로토콜
+	- SSL 1.0 > SSL 2.0 > SSL 3.0 > TLS 1.0 > RFC2246
+	- 동작
+		- 응용계층과 전송계층 사이에서 동작
+	- 절차
+		- 클라이언트가 서버 접속시 인증서 받음 -> 인증서 검토 후 공개키 추출 -> 세션키 메시지 공개키로 암호화하여 서버 전송 -> 서버는 개인키로 세션키 복호화해 통신
+	- 구조
+		- Record Protocol 로 보안 제공, HandShake Protocol, Change Cipher Spec Protocol, Alert Protocol 로 동작 관리
+		- Record Protocol
+			- 데이터 압축해 TCP 패킷 변환 후 무결성 인증
+			- HandShake Protocol, Change Cipher Spec Protocol, Alert Protocol을 감쌈
+			- 예시
+				20       3 0     0 1    1 
+				protocol version length message Mac
+				- Change ciper spec protocol을 감싼 Record protocol, change ciper spec 의미하는 20
+				- 압축하여 MAC 적용후 TCP 전달
+				- MAC
+					- Message Authentication Code, 데이터 검증 코드
+					- 무결성으로 수정/변경을 검출해도 거짓 행세를 검출하는 것은 불가능해 인증 위해 생성
+					- 원래의 데이터로만 생성 가능한 값을 데이터에 덧붙임
+		- Change Ciper Spec Protocol
+			- 암호화 알고리즘과 보안 정책 조율 위해 사용, default로 1
+		- Alert Procotol
+			- 첫번째엔 warning, fatal 들어가며 오류의 정도 출력, 두번째엔 오류 메시지 출력
+		- Handshake Protocol
+			- 대다수 메시지 이것 해당. 암호 알고리즘 결정, 키 분배, 서버/클라이언트 인증 수행
+	- Open SSL 취약점
+		- 오픈암호화 라이브러리 하트비트 확장모듈서 요청시 길이검증 없이 메모리데이터 평문 노출
+- TCP
+	- Transmission Control Protocol, 전송 제어 프로토콜.
+	- 역할
+		- 호스트가 서비스 가능 상태인지 확인 및 연결
+		- 전송 제어 정보를 패킷에 추가. ex) port, 순서
+	- PORT
+		- TCP, UDP가 상위계층에 제공하는 주소 표현 방식이며 IP 주소 진입 통로이며 통신의 종 단점.
+		- 프로세스나 네트워크를 식별하는 논리단위
+		- 동작
+			- IP로만 통신시 종류 파악을 못해 ip와 port를 합한 소켓주소로 통신
+			- 서버는 포트에서 대기, 클라이언트 해당포트 접속 형식
+	- 특징
+		- 신뢰성
+			- 손상 데이터 복구. ex) 적극적 수신, 통지, 재전송
+		- 흐름제어
+			- 송수신측 상이한 속도로 동작시 데이터의 양 제어
+		- 다중화
+			- 여러 프로세스 동시 사용, 프로그램에 포트 값 연계해 여러 연결 존재 가능
+		- 연결 지향 통신
+			- 전송 전에 연결을 만들며 하나의 전송선로에서 양쪽 방향으로 전송 가능
+		- 3way handshake
+			- 서버 통신 방법
+			- 절차
+				- 클라이언트 연결 요청, SYN 송신 -> 서버의 해당 포트, SYN 수신 후 SYN_RCY로 변경 -> 클라이언트에서 SYN+ACK 받고 ESTABLISHED 로 변경 후 서버에 ACK 전송
+			- flag 종류
+				- SYN
+					- 동기화. 교환과정 첫번째 패킷. 연결 시도. 
+				- ACK
+					- 응답. 첫번째 패킷 송신확인.
+				- RST
+					- 리셋. 비정상적 세션 연결 끊기.
+				- PSH
+					- 응용 계층으로 전송하는 flag
+				- URG
+					- 긴급. 급한 데이터 전송시 사용.
+				- FIN
+					- 종료. 세션이 종료.
+- IP
+	- Internet Protocol. 인터넷 네트워크에서 송수신에 대한 규약
+	- HOST
+		- 네트워크에 연결된 장치 통칭. Node라고도 부름
+	- IP 주소
+		- HOST 고유 주소 정보
+		- IPv4, IPv6 타입 ex) 172.16.0.80, 2001:0DB8:1000:0000:0000:0000:1111:2222
+	- 공인IP/사설IP
+		- 공인IP
+			- ICANN > KISA > A,B,C클래스 IP 사용권한 부여.
+			- 초기엔 기업에게 A,B클래스를 주었지만 요즘엔 C조차 구하기가 힘들어 IP를 구하기 힘들다.
+		- 사설IP
+			- 사용자가 임의로 부여하고 사용할 수 있지만 인터넷 상에선 서로 연결되지 않게 된 IP
+			- 종류
+				- A클래스 : 10.0.0.0 - 10.255.255.255
+				- B클래스 : 172.16.0.0 - 172.31.255.255
+				- C클래스 : 192.168.0.0 - 192.168.255.255
+			- 회사 내부나 집에선 공인IP를 부여받지 않은 상태에서 위 주소 중 아무 주소나 할당해도 문제 발생 않는다.
+			- 공인IP주소가 모자랄 경우 사설IP로 회사나 가정 내 IP주소 부여하고 공유기 등에 고정IP를 부여한 다음 인터넷으로 접속하는 방법 대중화.
+			- 클라이언트의 PC는 익명성 보장. 
+	- 고정IP/유동IP
+		- 고정IP
+			- 컴퓨터에 고정적 부여. 
+		- 유동IP
+			- 장비에 고정적으로 IP를 부여하지 않고 컴퓨터를 사용할 때 남아있는 IP중 돌아가며 부여하는 IP
+			- 사설IP는 컴퓨터가 네트워크에 접속할 때마다 업체에 IP할당을 요청해 네트워크에 접속할 때마다 IP주소가 변경될 수 있음.
+			- ex. 부여받은 IP가 10개, 접속할 컴이 20대면 유동IP로 돌아가며 사용.
+	- IP 특징
+		- 비신뢰성
+			- 송신 데이터 흐름에 관여하지 않고 호스트 강제종료시 패킷 소실
+		- 비연결성
+			- 순서 섞일수 있고, 호스트가 받을 준비 되었는지 모름
+	- Subnetmask
+		- 공유기가 공인IP를 사설IP로 변환해 초대 가능한 HOST 수
+	- DNS
+		- 도메인주소를 IP주소로 변환하는 프로토콜
+- MAC
+	- Media Access Control. 매체 접근 제어 프로토콜. 컴퓨터의 물리적 주소.
+	- Header
+		- 목적지 주소, 발송지 주소, 길이 정보 등이 포함됨.
+	- 구성
+		- 6byte. 11:32:FF:2C:4B:AB
+		- 앞 3byte는 제조업체식별코드. 뒤는 호스트식별자.
+	- ARP
+		- Address Resolution Protocol. 
+		- IP주소를 MAC주소로 변환하는 프로토콜
+	- DNS
+		- Domain Name System. 
+		- 도메인주소를 IP주소로 변환하는 프로토콜
+	- 특징
+		- IP주소를 MAC주소로 변환해서 사용. IP주소간 통신은 사실 라우터 hop에서 일어나는 MAC주소간의 통신.
+		- 랜카드의 ROM에 맥주소 존재. 불변하기 때문에 물리적 주소라는 이름 붙음. 
+		- 맥주소는 직접 연결된 노드들 즉 바로 옆 사람과의 통신에 초점. 큰 그림에서 NODE를 알려주는게 IP주소, 세세한 도착지를 알려주는게 MAC주소
+		- IP로만 통신시 변동가능성 존재해서 하드웨어 고유주소 필요.
+- 이더넷
+	- LAN에서 사용되는 기술규격으로 물리계층에서 신호와 배선, 데이터링크계층에서 MAC패킷을 정의.
+	- 네트워크 상에서 MAC주소를 갖고 데이터를 주고받게 구성됨. 허브, 스위치, 리피터 등의 장비 사용. 
+	- enp0s10
+		- en : ethernet. p0 : bus num. s10 : slot num.
+
+- 하드웨어
+	- 랜카드
+		- NIC, Network Interface Controller.
+		- MAC주소가 써있는 하드웨어. 이것이 있어야 랜선을 꽂을 수 있음. 
+	- 게이트웨이
+		- 한 네트워크에서 다른 네트워크로 이하기 위해 거쳐야하는 지점
+		- 1-3 계층에서 라우터가 이 역할 수행. 4-7계층에선 상이한 프로토콜간 특수한 변환을 담당하는 서버를 의미. 
+		- 상이한 네트워크상 프로토콜 변환하며 타 네트워크로 들어가는 입구. 일종의 통역사.
+		- 예시
+			- 집 > 공유기 > 회사 라우터 > 인터넷 망. 순서로 접속시 공유기, 라우터는 게이트웨이 역할.
+	- 공유기
+		- 업체에서 제공하는 1개의 인터넷 IP주소로 여러 컴퓨터, 노트북, 폰이 인터넷을 공유하게 하는 기능 제공.
+		- 업체에서 제공하는 IP를 외부IP, 공유기를 통해 내부 컴퓨터들이 사용하게 하는 IP는 내부IP.
+		- 공유기는 외부IP와 내부IP를 모두 가지고 있으며 외부에선 공인IP 내부에선 사설IP를 사용.
+		- NAT기능으로 사설IP를 공인IP로 전환 가능.
+		- 내부IP 즉 사설IP는 다시말해 가상의 IP인 셈.
+		- 예시
+			- 예전 서든은 외부IP로만 접속을 해야했기에 동일 공유기로 접속해서 2대의 컴퓨터에서 서든을 돌릴 수 없었다. 
+	- 라우터
+		- LAN을 연결해주는 장치로 정보 송수신시 패킷에 담긴 수신처의 주소를 향해 가장 적절한 경로로 전송하는 장치.
+		- 단순히 통신망을 연결하는 브릿지 기능에 더해 경로배정표에 따라 타 통신망 인식해 경로를 배정하는 등 다양한 통신망 관리기능.
+		- 예시
+			- 구글, 네이버 접속시도 > 도메인 서버를 통해 IP획득 > 내 IP랑 다름 > 이 IP로 요청 보내면 라우터에서 가야할 다음 라우터 판단 > 여러번 반복 후 네이버 도착.
+			- 전화망 또한 라우터 사용. 
+		- 인터넷
+			- Inter-networking. 라우터들의 모임을 의미함. 여러 LAN이 얽힌 네트워크
+	- 스위치
+		- 연결된 장치들의 IP, MAC주소 테이블을 갖고 원하는 목적지에 데이터패킷을 전송하는 장치.
+		- 예시
+			- 87.40.40.2:5000로 요청이 들어오면 해당하는 MAC을 찾고 그 장치에 패킷을 전송해줌.
+			- 자신의 테이블에 패킷이 오면 허브처럼 해당 패킷을 연결된 모든 장치에 포워딩해줌. 
+		- 종류
+			- L2 스위치는 MAC주소만 스위칭가능
+	- 허브
+		- 여러 컴퓨터를 연결해 데이터를 만들어주는 장치로 데이터패킷 수령시 연결된 모든 장치에게 보내는 장치
+		- 단점
+			- 단순 분배 중계기로 IP할당 불가. 
+			- 연결된 모든 장치에 패킷을 뿌리기에 데이터 전송 대역 분리해야함. 
+			- 허브에 연결된 네트워크에서 하나의 디바이스에서 전송된 데이터프레임을 허브로 연결된 모든 디바이스에게 모두 전송하는 플러딩 즉 충돌이 많아짐. 
+			- 보안이 안좋아 요즘 잘 안씀.
+		- 종류
+			- L1더미허브
+			- 리피터
+				- 전기적 신호를 증폭시켜 들어온 데이터 재전송. LAN 최대 전송길이 연장, 접속 가능 창비 많아짐.
+			- 멀티포트
+				- 한번에 많은 디바이스 연결하는 기능. 1개 포트에 1개 디바이스 할당
+		
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+	
+	
+
+		- 라우터와의 차이점
+			- 라우터는 LAN과 WAN을 잇는 역할 즉 네트워크계층에서 사용되지만
+			- 게이트웨이는 한 프로토콜이 다른 네트워크와 연결을 할때 연결되기 위해선 동일한 프로토콜이 필요하기에 변환기 역할을 수행함 
+			- 즉 게이트웨이가 라우터보다 더 포괄적인 개념으로, 공유기는 라우터와 게이트웨이의 역할을 동시에 수행함.
+
+		
+		
+			
+			
+
+				
+					
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+HTTP
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Messages
+https://ko.wikipedia.org/wiki/%ED%95%98%EC%9D%B4%ED%8D%BC%EB%A7%81%ED%81%AC
+https://inpa.tistory.com/entry/WEB-%F0%9F%8C%90-URL-URI-%EC%B0%A8%EC%9D%B4
+SSL
+https://m.blog.naver.com/xcripts/70122755291
+https://m.blog.naver.com/wnrjsxo/221719726759
+TCP
+https://musclebear.tistory.com/2
+https://kotlinworld.com/94
+IP
+https://study-recording.tistory.com/7
+https://kotlinworld.tistory.com/91
+https://m.blog.naver.com/jkssleeky/220637855128
