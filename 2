@@ -1,0 +1,360 @@
+- 네트워크 보안
+	- 네트워크 일반
+	- 네트워크 활용
+	- 네트워크 기반 공격 기술 이해 대응
+	- 네트워크 대응 기술 및 응용
+	- 네트워크 위협 최신
+
+
+- 어플리케이션 보안
+- 응용계층
+	- 사용자에게 서비스 제공. 
+		- HTTP
+			- Hypertext Transfer Protocol
+		- SMTP
+			- Simple Mail Transfer Protocol
+			- 절차
+				- 메일, SMTP 서버 전송, SENDMAIL 통해 찾아감
+				- Store and Forward, 전체패킷 수신/저장/전송 
+			- 구성
+				- Mail transfer agent, Mail delivery agent, Mail user agent
+		- FTP
+		 	- File Transfer Protocol
+			- ftpusers : FTP 차단유저
+			- 포트번호
+				- 22 : Telnet
+				- 53 : DNS
+			- 데이터 전송 연결
+				- 능동
+					- 21번포트 : 접속
+					- 20번포트 : 데이터전송
+				- 수동
+					- 21번포트 : 접속	
+					- 1024번 ~ : 데이터전송
+			- 종류
+				- FTP : 인증O. TCP
+				- tFTP : 인증X. UDP
+				- sFTP : 전송구간 암호화기법 사용
+			- FTP log 기록
+				- Xferlog 파일기록
+					- Sat Oct 29 21:35:39 2020 1 111.11.111.11 70 /home/aa.txt a_i r test ftp 0 * c
+					- 저 날짜에 저 아이피에서 파일업로드 성공.
+					- -l 옵션으로 기록 가능.
+			- FTP 보안취약점
+				- Bounce Attack
+					- FTP 데이터 전송시 목적지 검사 않는 특징, 전송 주소 임의 지정
+				- Brute Force
+				- 포트스캐닝
+				- tFTP Attack
+				- Anonymous FTP attack
+				- FTP server week point
+				- Sniffing
+		- SNMP
+			- Simple Network Management Protocol
+- 전송계층
+	- TCP
+		- 클라이언트/서버 연결지향
+		- 신뢰성, 에러제어, 순서제어, 혼잡제어
+	- UDP
+		- User datagram protocol
+		- 빠름, 비신뢰성, 비접속형
+- 네트워크
+	- IP
+		- 주소화, 데이터그램 포맷, 패킷 핸들링
+		- 데이터그램
+			- IP 전송단위. 최대 65536바이트. 헤더/데이터 구성.
+			- 헤더
+				- VER
+				- HELN
+					- 헤더길이
+				- SERVICE TYPE
+					- 데이터그램 우선순위, 라우터에 요구되는 서비스종류
+				- TOTAL LENGTH
+				- IDENTIFIER
+					- 노드의 IP프로토콜이 부여한 식별자
+				- FLAG
+					- 데이터그램 단편화
+				- FLAGMENT OFFSET
+					- 원래 데이터그램 오프셋
+				- TTL
+					- 데이터그램 존재 최대 시간
+				- PROTOCOL
+					- 상위계층 프로토콜 번호
+				- HEADER CHECKSUM
+					- 헤더에 대한 에러 검출 코드
+				- SOURCE IP ADDRESS
+				- DESTINATION IP ADDRESS
+				- OPTION
+				- PADDING
+					- 옵션 4바이트 배수 패딩
+				- DATA
+		- MTU
+			- 한번에 통과 가능한 패킷최대크기
+		- IP주소
+			- 네트워크주소 + 호스트주소
+	- ICMP
+		- Internel Control Message Protocol
+		- IP 에러시 출발지로 에러정보 전송
+		- 메시지
+			- Destinaion unreachable
+				- Network, host, protocol, port unreachable
+			- Source quench 
+				- 패킷이 너무 빨라 네트워크 제어
+			- Redirection
+				- 패킷 라우팅 경로 수정
+			- | 0 Echo request
+				- Host 존재 확인
+			- Time exceeded
+				- 시간 경과, 패킷 삭제
+		- PING
+			- Paket Internet Groper, 컴퓨터 네트워크 존재를 확인
+	- ARP/ RARP
+		- Address Resolution Protocol
+		- IP주소를 MAC주소 변환
+- 데이터링크, 물리
+	- IP주소 > MAC 주소 변환. 에러제어. 흐름제어
+	- CSMA/CD
+	 	- Carrier Sense Multiple Access Collision Detection
+		- 유선 랜 메시지 송수신
+	- CSMA/CA
+		- Carrier Sense Multiple Access Collision Avoidence
+		- 무선 랜 메시지 송수신
+- 네트워크 공격
+	- Dos
+		- Denial of Service
+		- 서비스 거부 공격. 서비스 계속 호출, 컴퓨터 자원 고갈, 헤더 변조, flooding(brute force)
+	- DDos
+		- Distributed Denial of Service
+		- 분산 서비스 거부 공격. 다수 서버 DDOS
+		- TCP SYN flooding
+		- ICMP Flooding (smurf)
+		- Tear Drop
+			- fragment 패킷 전송, offset값 조작 중첩 유발.
+		- Ping of Death
+			- Ping 이용 MTU이상 패킷 조정
+		- Land Attack
+			- 송신IP - 수신IP 동일 설정
+		- HTTP get flooding
+		- Cache Control Attack
+			- Cache - control header 옵션 사용해 계속 새 페이지 요청
+		- Slow HTTP get/post attack
+			- 정상 IP 기반 공격, 소량의 트래픽/세션 연결
+		- Hash Dos
+			- 해시테이블 인덱스정보 중복되도록 유도 조회 시 CPU자원 소모
+		- Hulk Dos
+			- 공격대상 URL을 지속 변경해 DDos 차단정책 우회
+	- 포트 스캐닝
+		- 취약점 찾는 사전작업으로 어떤 포트로 서비스하는지 확인. 
+		- TCP open scan
+			- SYN 패킷 전송. 연결 수립. (SYN+ACK/RST+ACK)
+		- TCP half open scan
+			- SYN 패킷 전송. 연결 미수립.(SYN+ACK/RST+ACK)
+		- FIN scan
+			- FIN 패킷 전송(응답X/RST)
+		- UDP scan
+			- UDP 패킷 전송(응답X/Unreachable)
+		- X-mas scan
+			- FIN, PSH, URG 패킷 전송(응답X/RST)
+		- NULl scan
+			- NULL 패킷 전송. (응답X/RST)
+	- 스니핑
+		- promiscuous 모드
+			- 랜카드 들어오는 모든 패킷 맥주소 관계없이 모두 받는 모드 
+				- 일반적으로 본인 주소 아닌 패킷 폐기
+		- tcp dump
+			- 패킷분석기. 네트워크 트래픽 분석
+	- 세션 하이재킹
+		- TCP 세션 탈취 후 인증우회. UDP는 세션이 없어서 불가능.
+		- 방법
+			- Sequence Number 스니핑, RST(Reset)로 sequence number 초기화, 갈취
+		- 종류
+			- Blind attack
+			- Non Blind attack
+	- 스푸핑
+		- IP 변조, syn flooding으로 포트확인, 인증우회
+	- ARP 스푸핑
+		- 맥주소 탈취, 인증우회
+- SNS 공격
+	- APT
+		- Advanced Persistent Threat
+		- SNS로 악성코드 배포, 지속 공격
+		- ex. 제로데이, MAIL, 백도어
+- 랜섬웨어
+	- 사용자의 문서를 암호화. SD카드 백업도 무소용.
+	- 크립토락커
+		- RSA, AES로 암호화. 
+- 네트워크 대응
+	- firewall
+		- 네트워크 트래픽 모니터링 하며 접근통제
+			- 인바운드(외부 > 내부 규칙), 아웃바운드
+		- 종류
+			- 패킷필터링
+				- 1세대 방화벽. 3,4계층서 패킷의 IP/포트 확인, 접근여부 결정
+				- 빠름, 유연성, 취약성
+			- 애플리케이션 게이트웨이
+				- 2세대 방화벽. 7계층까지 동작하며 패킷 헤더영역까지 체크
+				- 프록시, 서비스 요청에 규칙 적용하고 연결 대신함. 
+				- 프록시
+					- 서버와 클라이언트간 중계기, 클라이언트 통해 네트워크 간접적 접속하게 해주는 프로그램
+					- 데몬의 일종, 보안성, 유연성 낮음
+			- 회선 게이트웨이
+				- 2세대 방화벽. 5계층과 7계층 사이에서 동작.
+				- 서비스별 프락시가 아니라 모든 서비스 이용가능한 대표 프락시 설정
+				- 클라이언트, 방화벽 내부 프락시와 연결해 안전한 통신 Circuit 구성 후 통신
+			- 상태 기반 패킷 검사
+				- 3세대 방화벽. 3계층 동작, 프로토콜 상태정보 테이블, 프로토콜 특성에 따른 변환 동적 대응
+				- 세션 추적 가능, 네트워크 순서 추적해 위배되는 패킷 차단 
+					- ex. 내부 정상적인 ping request에 대한 ping reply는 허용, 내부자의 request 가 존재하지 않는 ping reply 차단
+			- 심층 패킷 분석
+				- 3세대 방화벽. 컨텐츠까지 모두 검사
+	- 침입차단 시스템 구축 유형
+		- 스크리닝 라우터
+			- 외부와 내부망 사이 패킷필터링 규칙 적용해 방화벽 역할 수행하는 구조
+			- 내부 네트워크와 외부 네트워크 사이 패킷 트래핏 permit/drop
+			- 단점
+				- 세부 규칙 적용 까다롭고 트래픽 폭주 잡지 못함
+		- 배스티온 호스트
+			- 완벽에 가깝게 방어정책이 구현된 시스템. 로깅, 모니터링, 접근제어, 프록시, 인증 등 구현.
+			- 내부 네트워크 전면에서 내부 네트워크 전체 보호. 외부 인터넷과 내부 네트워크 연결. 
+			- 단점
+				- 방화벽 손상시 내부공격에 무방비, 2계층 우회 공격 가능
+		- 듀얼 홈드 호스트
+			- 네트워크 카드 2개 이상 갖춰진 방화벽. 내부, 외부에 대해 각각 운영.
+			- 내부에서 외부로 향하려면 반드시 이중 홈 게이트웨이를 지나야해 좀 더 효율적 트래픽 관리
+			- 2개의 NIC로 외부 네트워크와 내부 네트워크를 연결. 프록시 기능.
+		- 스크린드 호스트
+			- 스크리닝 라우터에서 3,4계층 접근제어, 베스천호스트에서 7계층 접근제어 해 안전.
+			- Screening Router, Bastion Host 구성
+		- 스크린드 서브넷
+			- 외부 내부 가운데 DMZ 위치시켜 버퍼 구성. 그곳엔 프록시 설치. 안전하지만 설치/관리 어렵고 느림. 
+			- 외부네트워크와 내부네트워크 사이 하나 이상 경계 네트워크 생성 (스크리닝라우터2개, 배스천 호스트 1개)
+	- 침입 탐지 시스템
+		- IDS, Intrusion Detection System.
+		- DB에 저장된 패턴 정보를 바탕으로 시스템의 침입을 실시간 모니터링하는 보안 시스템
+		- 오용탐지
+			- 패턴 저장하고 동일시 공격을 식별하는 시그니처 기반 탐지방법. 
+			- False negative 큼. 
+		- 이상탐지
+			- 이상을 탐지하는 행위 기반 탐지방법
+			- False positive 큼.  
+		- NIDS
+			- Network Based IDS. 네트워크 패킷검사. 부가장비 필요
+		- HIDS
+			- Host Based IDS. 시스템상 설치. 시스템 로그 검사.
+		- Snort
+			- 패킷탐지 침입탐지 시스템. 프로토콜 분석, 컨텐츠 검색, 웜, 취약점 공격, 포트스캔, 버퍼오버플로우 등 다양한 공격 감지 opensource Alert
+			- alert tcp ip port -> ip port | (msg: "massage";sid:1000000; content:"content" flag:SYN)
+			- 룰 헤더
+				- action
+					- alertf
+						- 선택한 방법으로 alert 발생후 패킷 로그에 남김
+					- log
+						- 패킷 로그에 남김
+					- pass
+						- 무시
+					- activate
+						- alert 발생시키고 대응하는 dynamic rule 활성화
+					- dynamic
+						- activate rule 에 의해 활성화, log rule 과 동일히 동작
+					- drop
+						- 패킷 차단 후 로그에 남김
+					- reject
+						- drop rule 과 동일히 패킷 차단하고 로그에 남긴후 TCP인 경우 TCP reset 전송, UDP인 경우 ICMP port unreachable 전송.
+					- sdrop
+						- 패킷 차단하지만 로그엔 안남김
+				- protocol
+				- IP / PORT
+				- Direction operator
+			- 룰 바디
+				- msg
+					- msg 옵션에 기록된 내용 alert 발생시 이벤트 이름으로 사용
+				- reference
+					- rule 과 관련된 외부취약점 정보참조시 사용
+				- SID
+					- snort rule id. 99이하 : 시스템에 예약된 sid, 100 - 1000000 : snort 에서 배포하는 룰셋에서 쓰는 sid, 1000001 이상 : 사용자 정의 rule서 쓰는 sid
+				- classtype
+					- 공격 유형과 기본 우선순위 정의. 1 : 높음, 2 : 중간, 3 : 낮음
+				- priority
+					- rule 의 우선순위에 대해 숫자 표기. priority 지정시 classtype을 앞지름.
+				- content
+				- flag
+			- 범위
+				- content
+					- 페이로드에 검사할 직접적 문자열 지정. binary, text 혹은 복합 형식일 수 있음
+				- uricontent
+					- content 문자열을 전체패킷과 비교하는 대신 HTTP 클라이언트 요청 URI정보를 검사할 문자열 지정.
+				- offset
+					- 페이로드에서 content 패턴 검사할 시작위치
+				- depth
+					- 몇바이트까지 검사할지 결정
+				- distance
+				- within
+				- nocase
+					- 대 소문자 미 구분
+			- type
+				- threshold type ..., track by src, count c, seconds s
+				- limit
+					- 매 s초 동안 c번째 이벤트까지 action 수행
+				- threshold
+					- 매 s초 동안 c번째 이벤트마다 action 수행
+				- both
+					- 매 s초 동안 c번째 이벤트 시 한번 action 수행
+	- 침입 대응 시스템
+		- IPS. Intrusion Prevention System
+		- 공격 시그니처 찾아 비정상 패턴 감지하고 차단
+		- Honeypot
+			- 의도적으로 취약한 사이트 해킹에 노출시켜 해킹기법, 행동 분석
+	- VPN
+		- Virtual Private Network. 가상개인사설망.
+		- 공중망 이용해 사설망 가상 구축 방법
+		- SSL VPN
+			- 웹브라우저 이용한 VPN 소프트웨어. 설치 필요 없음. 
+			- 인증, 무결성. 기밀성, 부인봉쇄 
+		- IPSEC VPN
+			- 터널모드, 전송모드 이용한 VPN
+		- PPTP VPN
+			- Point To Point Tunneling Protocol. 
+			- IP 네트워크에 전송하기 위한 터널링 기법, 데이터링크계층에서 동작
+		- L2TP VPN
+			- Layer 2 Tunneling Protocol. 
+			- PPTP 확장한 터널링 프로토콜, 데이터링크계층에서 동작
+	- UTM
+		- Unitied Threat Management
+		- 방화벽, VPN, IDS, IPS등 보안기능 통합 솔루션. 
+		- 다양한 보안위협 대응가능, 낮은 비용, 유지보수 편리.
+	- NAC
+		- Network Access Control, 등록 안된 단말기 식별 차단, 네트워크 무결성
+		- 정책관리서버
+			- 정책 설정, 접근 로그 관리
+		- 차단서버
+			- 단말기 통제, 탄말기 정보 수집 분류, 트래픽 감지
+		- 에이전트
+			- 사용자 단말기 설치, 무선 인증 지원
+		- 콘솔
+			- 웹기반 네트워크 보안정책 성적, 감사, 모니터링 대시보드
+	- ESM
+		- Enterprise Security Management, 기업 정보보안 정책 반영. 보안시스템 통합한 통합 보안관제 시스템
+			- 기업 자산 및 자원관리
+			- 보안감사, 상관성분석
+	- 무선랜 보안기법
+		- SDR
+			- Service set ID
+			- AP는 동일한 SSID 를 가진 클라이언트만 접속허가
+				- SSID
+					- Service set Identifier
+					- 무선랜 통해 전송되는 패킷들의 각 헤더에 덧붙여지는 32바이트 길이 고유 식별자. 무선장치들이 BSS(basic service set)에 접속할때 암호같이 사용된다. 
+					- SSID는 하나의 무선랜을 다른 무선랜으로부터 구분해주기에 특정 무선랜에 접속하련느 모든 AP(Access point)나 무선 장치들은 반드시 동일 SSID 사용해야한다.
+		- WEP
+			- Wired Equivalent Privacy
+			- IEEE 802.11b RC4 스트림암호화 알고리즘. 40bit 키 사용
+		- WPA
+			- Wifi Protect Access
+			- IEEE 802.1x/EAP, 128bit 동적암호화
+			- EAP
+				- Extensible Authentication Protocol
+				- 사용자인증 프로토콜. station과 AP간의 temporal key를 동적으로 생성하고 무선구간에 암호화 수행.
+				- VPN같은 PPP(Point to Point Protocol)연결 네트워크 접근 인증에 대해 확장성 제공 프레임워크.
+		- WPA2
+			- IEEE802.11i, WPA + AES
+		
+

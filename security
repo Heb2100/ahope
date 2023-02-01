@@ -1,0 +1,2111 @@
+- HTTP Protocol
+	- HyperTest Transfer Protocol. 네트워크 접근하여 HTML 파일 전송 프로토콜
+	- OSI 7계층
+		- Open System Interconnection. 네트워크 프로토콜 통신을 7계층 분리
+		- 물리 > 데이터링크 > 네트워크 > 전송 > 세션 > 표현 > 응용 계층
+	- Hypertext
+		- 하이퍼링크로 타 문서로 접근을 돕는 텍스트
+		- 하이퍼링크
+			- 하이퍼텍스트 문서 안에서 자료를 연결하는 고리
+			- URI는 URL, URN을 포함하는 개념. 
+	- Header
+		- 해당 메시지가 제공하는 기능
+		- General Header
+			- Date
+			- Pragma
+				- 캐시 제어. HTTP/1.0 전용
+			- Cache-Control
+				- 캐시를 제어 ex. no-cache, public, max-age, private, must-revalidate, no-store
+				- no-cache : 캐시를 저장하지만 사용시 확인을 받아야함 
+				- max-age : 캐시 유효시간 명시
+			- Transfer-Endcoding
+				- Body 내용 압축 방식 지정 ex. chunked, compress, deflate, gzip, identity...
+				- Chunked : 나눠 보냄
+			- Upgrade
+			- Via
+			- Expires
+			- Allow
+				- 사용 가능한 HTTP 메소드방식. ex. GET, HEAD, POST
+			- Last-Modified 
+			- ETag
+			- Connection
+				- 클라이언트와 서버의 연결방식 
+				- HTTP/1.1은 keep-alive가 디폴트
+		- Request/Response Header
+			- Request line
+				- ex. GET /content/page1/ HTTP/1.1\n
+			- Host
+			- User-agent
+				- 클라이언트의 에이전트 정보. 브라우저에 맞는 정보를 전달. 
+				- ex. Mozilla/4.0, Windows NT5.1
+			- Referer
+				- 바로 직전에 머물렀던 웹 링크
+			- Accept
+				- 클라이언트 처리 가능 타입
+				- ex. */* : 모든 타입
+				- application/json : json타입
+			- Accept-charset
+				- 클라이언트 처리 가능 문자열 인코딩 방식
+			- Accept-language
+			- Accept-encoding
+				- 클라이언트 처리 가능 압축방식
+				- ex. gzip, deflate
+			- Content-location 
+			- Content-disposition
+			- Content-Security-Policy
+			- If-Modified-Since
+			- Authorization
+			- Origin
+			- Cookie
+				- 쿠키값. ex. attr1=value1;
+		- Response header
+			- Location
+				- 301, 302 상태코드일 때만 볼수 있음. 
+				- 서버의 응답이 다른 곳에 있다고 알려 주며 해당 위치(URI)를 지정.
+			- Server
+			- Age
+				- max-age 시간 내에서 얼마나 흘렀는지 초단위로 알려줌.
+			- Referrer-policiy
+			- WWW-Authenticate
+			- Proxy-Authenticate
+		- Entity header
+			 컨텐츠와 HTTP 본문에 대한 정보.
+			 - Content-Encoding
+				- 본문 리소스 압축방식
+				- transfer-encoding은 body의 압축
+			- Content-type
+				- 본문의 미디어 타입. ex. application/json, text/html
+			- Content-Length
+				- 본문의 길이.
+			- Content-language
+		- header의 예시
+			- 모든 문장은 \r \n으로 끝나야 함. 
+			- Header의 종료는 \n\n으로 표기.
+			- request 헤더
+				request line > Header > \n\n > Body 순서로 진행.
+				GET / HTTP/1.1
+				Host : www.msaleh.co.cc
+				User-Agent : Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.0.10)
+				Gecko/9042316 Firefox/3.0.10
+				Accept: */*
+				Connection:close
+			- response 헤더
+				HTTP status code > Header > \n\n > Body 순서로 진행.
+				HTTP/1.1 200 OK
+				Date: Sat, 09 may 2009 12:27:54 GMT
+				Server: Appache/2.2.11 (Unix)
+				Last-Modified: Thu, 12 feb 2009 15.29.42 GMT
+				Etag: "c3b-462ba63a46580"-gzip
+				Cache-Control: max-age=1200, private, proxy-revalidate, must-revalidate
+				Expires: Sat, 09 May 2009 12:47:54 GMT
+				Accept-Ranges: bytes
+				Content-Length:976
+				Content-Type:text/html
+		- 응답상태코드
+			- 100-109
+				- 요청 빋음
+			- 200-209
+				- 요청 받고 인식
+			- 300-309
+				- 요청 받고 추가작업
+			- 400-409
+				- 클라이언트 에러
+			- 500-509
+				- 서버 에러
+		- HTTP Method
+			- GET
+				- Header의 URL에 데이터가 담김
+				- 보안에 안 좋음
+			- POST
+				- Body 부분에 데이터가 담김
+				- 데이터가 크고 보안이 나음
+			- HEAD
+				- 헤더만 반환
+			- PUT
+				- 서버에게 변경 혹은 생성 요청
+			- DELETE
+				- URI 내용 삭제 요청
+			- TRACE
+				- 메시지의 이상 유무 추적
+			- OPTIONS
+				- 가능한 메소드 문의
+	- 특징
+		- 클라이언트 서버구조
+			- 클라이언트가 서버에 요청, 응답을 대기. 서버는 요청에 응답
+		- 무상태 프로토콜
+			- 서버가 클라이언트 요청을 저장하지 않아 요청을 반복해서 보내야함
+		- 비연결성
+			- 연결을 유지하지 않는게 기본이었으나 버전이 올라가며 keep-alive로 변경.
+	- 정보 유지 방법
+		- cookie
+			- 클라이언트에 정보 저장, 속도 우수
+		- session
+			- 서버에 정보 저장, 보안 우수
+	- HTTPS
+		- HyperTest Transfer Protocol SSL, 추가적인 보안 계층 존재
+	- 통신
+		- HTTP통신
+			- 클라이언트가 요청하고 서버가 응답하는 방식의 단방향 통신.
+			- 연결을 유지하지 않는게 기본이었으나 비용상 문제로 keep-alive로 연결 유지하게 변경.
+		- 소켓통신
+			- 클라이언트 서버 양쪽에서 서로 데이터 전달하는 방식의 양방향 통신으로  HTTP 통신에 비해 리소스 소모 큼
+			- 결국 HTTP는 소켓통신. 하지만 HTTP통신이 더 큰 범위를 표현.
+		
+- SSL
+	- Secure Socket Layer. 암호화 기반 인터넷 보안 프로토콜
+	- SSL 1.0 > SSL 2.0 > SSL 3.0 > TLS 1.0 > RFC2246
+	- 동작
+		- 응용계층과 전송계층 사이에서 동작
+	- 절차
+		- 클라이언트가 서버 접속시 인증서 받음 -> 인증서 검토 후 공개키 추출 -> 세션키 메시지 공개키로 암호화하여 서버 전송 -> 서버는 개인키로 세션키 복호화해 통신
+	- 구조
+		- Record Protocol 로 보안 제공, HandShake Protocol, Change Cipher Spec Protocol, Alert Protocol 로 동작 관리
+		- Record Protocol
+			- 데이터 압축해 TCP 패킷 변환 후 무결성 인증
+			- HandShake Protocol, Change Cipher Spec Protocol, Alert Protocol을 감쌈
+			- 예시
+				20       3 0     0 1    1 
+				protocol version length message Mac
+				- Change ciper spec protocol을 감싼 Record protocol, change ciper spec 의미하는 20
+				- 압축하여 MAC 적용후 TCP 전달
+				- MAC
+					- Message Authentication Code, 데이터 검증 코드
+					- 무결성으로 수정/변경을 검출해도 거짓 행세를 검출하는 것은 불가능해 인증 위해 생성
+					- 원래의 데이터로만 생성 가능한 값을 데이터에 덧붙임
+		- Change Ciper Spec Protocol
+			- 암호화 알고리즘과 보안 정책 조율 위해 사용, default로 1
+		- Alert Procotol
+			- 첫번째엔 warning, fatal 들어가며 오류의 정도 출력, 두번째엔 오류 메시지 출력
+		- Handshake Protocol
+			- 대다수 메시지 이것 해당. 암호 알고리즘 결정, 키 분배, 서버/클라이언트 인증 수행
+	- Open SSL 취약점
+		- 오픈암호화 라이브러리 하트비트 확장모듈서 요청시 길이검증 없이 메모리데이터 평문 노출
+- TCP
+	- Transmission Control Protocol, 전송 제어 프로토콜.
+	- 역할
+		- 호스트가 서비스 가능 상태인지 확인 및 연결
+		- 전송 제어 정보를 패킷에 추가. ex) port, 순서
+	- PORT
+		- TCP, UDP가 상위계층에 제공하는 주소 표현 방식이며 IP 주소 진입 통로이며 통신의 종 단점.
+		- 프로세스나 네트워크를 식별하는 논리단위
+		- 동작
+			- IP로만 통신시 종류 파악을 못해 ip와 port를 합한 소켓주소로 통신
+			- 서버는 포트에서 대기, 클라이언트 해당포트 접속 형식
+	- 특징
+		- 신뢰성
+			- 손상 데이터 복구. ex) 적극적 수신, 통지, 재전송
+		- 흐름제어
+			- 송수신측 상이한 속도로 동작시 데이터의 양 제어
+		- 다중화
+			- 여러 프로세스 동시 사용, 프로그램에 포트 값 연계해 여러 연결 존재 가능
+		- 연결 지향 통신
+			- 전송 전에 연결을 만들며 하나의 전송선로에서 양쪽 방향으로 전송 가능
+		- 3way handshake
+			- 서버 통신 방법
+			- 절차
+				- 클라이언트 연결 요청, SYN 송신 -> 서버의 해당 포트, SYN 수신 후 SYN_RCY로 변경 -> 클라이언트에서 SYN+ACK 받고 ESTABLISHED 로 변경 후 서버에 ACK 전송
+			- flag 종류
+				- SYN
+					- 동기화. 교환과정 첫번째 패킷. 연결 시도. 
+				- ACK
+					- 응답. 첫번째 패킷 송신확인.
+				- RST
+					- 리셋. 비정상적 세션 연결 끊기.
+				- PSH
+					- 응용 계층으로 전송하는 flag
+				- URG
+					- 긴급. 급한 데이터 전송시 사용.
+				- FIN
+					- 종료. 세션이 종료.
+- IP
+	- Internet Protocol. 인터넷 네트워크에서 송수신에 대한 규약
+	- HOST
+		- 네트워크에 연결된 장치 통칭. Node라고도 부름
+	- IP 주소
+		- HOST 고유 주소 정보
+		- IPv4, IPv6 타입 ex) 172.16.0.80, 2001:0DB8:1000:0000:0000:0000:1111:2222
+	- 공인IP/사설IP
+		- 공인IP
+			- ICANN > KISA > A,B,C클래스 IP 사용권한 부여.
+			- 초기엔 기업에게 A,B클래스를 주었지만 요즘엔 C조차 구하기가 힘들어 IP를 구하기 힘들다.
+		- 사설IP
+			- 사용자가 임의로 부여하고 사용할 수 있지만 인터넷 상에선 서로 연결되지 않게 된 IP
+			- 종류
+				- A클래스 : 10.0.0.0 - 10.255.255.255
+				- B클래스 : 172.16.0.0 - 172.31.255.255
+				- C클래스 : 192.168.0.0 - 192.168.255.255
+			- 회사 내부나 집에선 공인IP를 부여받지 않은 상태에서 위 주소 중 아무 주소나 할당해도 문제 발생 않는다.
+			- 공인IP주소가 모자랄 경우 사설IP로 회사나 가정 내 IP주소 부여하고 공유기 등에 고정IP를 부여한 다음 인터넷으로 접속하는 방법 대중화.
+			- 클라이언트의 PC는 익명성 보장. 
+	- 고정IP/유동IP
+		- 고정IP
+			- 컴퓨터에 고정적 부여. 
+		- 유동IP
+			- 장비에 고정적으로 IP를 부여하지 않고 컴퓨터를 사용할 때 남아있는 IP중 돌아가며 부여하는 IP
+			- 사설IP는 컴퓨터가 네트워크에 접속할 때마다 업체에 IP할당을 요청해 네트워크에 접속할 때마다 IP주소가 변경될 수 있음.
+			- ex. 부여받은 IP가 10개, 접속할 컴이 20대면 유동IP로 돌아가며 사용.
+	- IP 특징
+		- 비신뢰성
+			- 송신 데이터 흐름에 관여하지 않고 호스트 강제종료시 패킷 소실
+		- 비연결성
+			- 순서 섞일수 있고, 호스트가 받을 준비 되었는지 모름
+	- Subnetmask
+		- 공유기가 공인IP를 사설IP로 변환해 초대 가능한 HOST 수
+	- DNS
+		- 도메인주소를 IP주소로 변환하는 프로토콜
+- MAC
+	- Media Access Control. 매체 접근 제어 프로토콜. 컴퓨터의 물리적 주소.
+	- Header
+		- 목적지 주소, 발송지 주소, 길이 정보 등이 포함됨.
+	- 구성
+		- 6byte. 11:32:FF:2C:4B:AB
+		- 앞 3byte는 제조업체식별코드. 뒤는 호스트식별자.
+	- ARP
+		- Address Resolution Protocol. 
+		- IP주소를 MAC주소로 변환하는 프로토콜
+	- DNS
+		- Domain Name System. 
+		- 도메인주소를 IP주소로 변환하는 프로토콜
+	- 특징
+		- IP주소를 MAC주소로 변환해서 사용. IP주소간 통신은 사실 라우터 hop에서 일어나는 MAC주소간의 통신.
+		- 랜카드의 ROM에 맥주소 존재. 불변하기 때문에 물리적 주소라는 이름 붙음. 
+		- 맥주소는 직접 연결된 노드들 즉 바로 옆 사람과의 통신에 초점. 큰 그림에서 NODE를 알려주는게 IP주소, 세세한 도착지를 알려주는게 MAC주소
+		- IP로만 통신시 변동가능성 존재해서 하드웨어 고유주소 필요.
+- 이더넷
+	- LAN에서 데이터 송수신시 사용되는 기술규격. 물리계층에서 신호와 배선, 데이터링크계층에서 MAC주소를 정의.
+	- 네트워크 상에서 MAC주소를 갖고 데이터를 주고받게 구성됨. 허브, 스위치, 리피터 등의 장비 사용. 
+	- enp0s10
+		- en : ethernet. p0 : bus num. s10 : slot num.
+
+- 하드웨어
+	- 랜카드
+		- NIC, Network Interface Controller.
+		- MAC주소가 써있는 하드웨어. 이것이 있어야 랜선을 꽂을 수 있음. 
+	- 게이트웨이
+		- 한 네트워크에서 다른 네트워크로 이하기 위해 거쳐야하는 지점
+		- 1-3 계층에서 라우터가 이 역할 수행. 4-7계층에선 상이한 프로토콜간 특수한 변환을 담당하는 서버를 의미. 
+		- 상이한 네트워크상 프로토콜 변환하며 타 네트워크로 들어가는 입구. 일종의 통역사.
+		- 예시
+			- 집 > 공유기 > 회사 라우터 > 인터넷 망. 순서로 접속시 공유기, 라우터는 게이트웨이 역할.
+	- 공유기
+		- 업체에서 제공하는 1개의 인터넷 IP주소로 여러 컴퓨터, 노트북, 폰이 인터넷을 공유하게 하는 기능 제공.
+		- 업체에서 제공하는 IP를 외부IP, 공유기를 통해 내부 컴퓨터들이 사용하게 하는 IP는 내부IP.
+		- 공유기는 외부IP와 내부IP를 모두 가지고 있으며 외부에선 공인IP 내부에선 사설IP를 사용.
+		- NAT기능으로 사설IP를 공인IP로 전환 가능.
+		- 내부IP 즉 사설IP는 다시말해 가상의 IP인 셈.
+		- 예시
+			- 예전 서든은 외부IP로만 접속을 해야했기에 동일 공유기로 접속해서 2대의 컴퓨터에서 서든을 돌릴 수 없었다. 
+	- 라우터
+		- LAN을 연결해주는 장치로 정보 송수신시 패킷에 담긴 수신처의 주소를 향해 가장 적절한 경로로 전송하는 장치.
+		- 단순히 통신망을 연결하는 브릿지 기능에 더해 경로배정표에 따라 타 통신망 인식해 경로를 배정하는 등 다양한 통신망 관리기능.
+		- 예시
+			- 구글, 네이버 접속시도 > 도메인 서버를 통해 IP획득 > 내 IP랑 다름 > 이 IP로 요청 보내면 라우터에서 가야할 다음 라우터 판단 > 여러번 반복 후 네이버 도착.
+			- 전화망 또한 라우터 사용. 
+		- 인터넷
+			- Inter-networking. 라우터들의 모임을 의미함. 여러 LAN이 얽힌 네트워크
+	- 스위치
+		- 연결된 장치들의 IP, MAC주소 테이블을 갖고 원하는 목적지에 데이터패킷을 전송하는 장치.
+		- 예시
+			- 87.40.40.2:5000로 요청이 들어오면 해당하는 MAC을 찾고 그 장치에 패킷을 전송해줌.
+			- 자신의 테이블에 패킷이 오면 허브처럼 해당 패킷을 연결된 모든 장치에 포워딩해줌. 
+		- 종류
+			- L2 스위치는 MAC주소만 스위칭가능
+	- 허브
+		- 여러 컴퓨터를 연결해 데이터를 만들어주는 장치로 데이터패킷 수령시 연결된 모든 장치에게 보내는 장치
+		- 단점
+			- 단순 분배 중계기로 IP할당 불가. 
+			- 연결된 모든 장치에 패킷을 뿌리기에 데이터 전송 대역 분리해야함. 
+			- 허브에 연결된 네트워크에서 하나의 디바이스에서 전송된 데이터프레임을 허브로 연결된 모든 디바이스에게 모두 전송하는 플러딩 즉 충돌이 많아짐. 
+			- 보안이 안좋아 요즘 잘 안씀.
+		- 종류
+			- L1더미허브
+			- 리피터
+				- 전기적 신호를 증폭시켜 들어온 데이터 재전송. LAN 최대 전송길이 연장, 접속 가능 창비 많아짐.
+			- 멀티포트
+				- 한번에 많은 디바이스 연결하는 기능. 1개 포트에 1개 디바이스 할당
+		
+- 시스템보안
+	- 클라이언트 보안
+		- 관리
+			- 운영체제
+			- 인증, 접근통제
+			- 파일시스템
+			- 공격기술
+			- 유/무선 단말기 보안
+	- 서버 보안
+		- 활용
+			- 운영체제
+			- 시스템 최적화
+			- 시스템 로그
+			- 공격 대응 기술
+			- 점검 도구
+			- 로깅 및 로그분석
+			- 백업
+		- 보안용 소프트웨어
+			- 서버 접근 통제
+			- 시스템 취약점 점검 도구
+			- 서버 보안 시스템
+			- 무결성 점검 도구
+			= 로깅 및 로그분석 도구
+
+- CPU
+	- Central Processing Unit
+	- 주기억장치에서 자료 받아 연산하는 장치
+	- 구성요소
+		- ALU
+			- Arithmetic and Logical Unit. 
+			- 산술논리장치. 산술, 논리 연산
+		- 레지스터
+			- 중간결과 고속기억
+			- 종류
+				- PC (Program Counter)
+					- 다음 주기억장치 주소 저장
+				- MAR (Memory Address Register)
+					- 주기억장치 주소 저장
+				- MBR (Memory Buffer Register)
+					- 주기억장치 입출력자료 저장
+				- IR (Instruction Register)
+					- 주기억장치 인출 명령코드 저장
+		- 제어장치
+			- 명령어 해석, 제어신호
+		- CPU버스
+			- 레지스터 간 데이터 이동
+	- 주기억장치
+		- CPU가 처리하고 있는 내용 저장, 메모리에 접근/변경 가능
+		- 종류
+			- ROM
+				- Read Only Memory
+				- 읽기만 가능, 비휘발성
+			- RAM
+				- Random Access Memory
+				- 읽고쓰기 가능, 휘발성
+	- 보조기억장치
+		- 물리적인 디스크와 연결된 기억장치
+		- 종류
+			- HHD
+				- Hard Disk Driver
+				- 물리적 저장소
+			- SSD
+				- Solid State Driver
+				- 반도체 기반 저장소
+	- 명령 실행 주기
+		- 인출
+			- 메모리 데이터를 로드하여 레지스터에 저장
+		- 간접
+			- 메모리 참조시 그 주소 참조
+		- 실행
+			- 산술, 논리 연산
+		- 방해
+			- 사고시에도 업무처리 가능
+	- 메모리계층
+		- 레지스터 > 캐시 > 주기억장치 > 보조기억장치
+		- 용량이 커짐. 비용 작아짐. 속도 느려짐.
+	- 캐시
+		- CPU와 메모리 간 속도 차이를 위한 버퍼
+		- 메모리관리
+			- CPU가 원하는 데이터가 캐시메모리에 있을수 있게 하는것
+		- 매핑방식
+			- 직접매핑
+				- 주기억장치 순서대로 캐시와 매핑
+			- 집합 연관매핑
+				- 직접 + 연관
+			- 연관매핑
+				- 주기억장치 순서없이 캐시와 매핑
+		- 호출기법
+			- Demand-Fetch
+				- 필요시 캐시 인출
+			- Pre-Fetch
+				- 예상되는 데이터 인출
+		- 메모리 교체
+			- FIFO
+				- First in First Out
+				- 자주 사용되는 페이지 교체 가능
+			- LFU
+				- Least Frequently Used
+				- 최근 페이지 교체 가능
+			- LRU
+				- Least Recently Used
+				- 오버헤드
+			- NUR
+				- Not Used Recently
+				- 가장 오래된 페이지 미보장
+			- 발생가능 문제점
+				- Page fault
+					- 부재하는 PAGE 사용하려함
+				- demand paging
+					- 요구될때만 PROCESS가 PAGE 적재
+				- Thrashing
+					- 부재가 빈번해 프로세스 수행보다 교체가 오래걸림
+		- 메모리 교체 문제해결
+			- 페이지 교체
+				- 물리적 메모리에 올라온 페이지 중 하나를 선택해 디스크의 스왑 영역으로 보내는 것.
+				- 페이지 부재 발생시 요청 페이지 디스크서 메모리로 읽어와야 하는데 물리적 메모리에 빈 프레임이 없는경우 발생
+			- Load Control
+			- Locality
+			- Working Set
+			- PFF
+	- 워드, 블록, (페이지, 세그먼트)
+		- CPU, 주기억장치, 보조기억장치의 최소 단위
+	- 스왑
+		- 여유공간 위해 안쓰는 항목 메모리서 하드로 옮김
+	- 보조기억장치
+		- 가상메모리
+			- 주기억장치를 늘리기 위해 보조기억장치를 마치 주기억장치같이 사용하는 방법
+			- 가상메모리 주소를 줘 메모리가 커보이게 하는 관리기법
+			- 단위
+				- 페이지
+					- 동일 크기 분할
+				- 세그먼트
+					- 용도별 분할	
+	- I/O 인터페이스
+		- 주변장치와 버스를 연결
+		- CPU 경유
+			- 프로그램에 의한 I/O
+				- CPU가 주변장치 연속 감시, polling
+			- 인터럽트에 의한 I/O
+				- 인터럽트 감지시 중지. 동작 도중 CPU 다른일 가능
+		- CPU 비경유
+			- DMA
+				- Direct Memory Access
+				- 메모리가 I/O간 직접전송되어 빠름.
+			- I/O processor
+				- I/O장치의 복잡함으로 DMA 한계 보완.
+					- Multiplexer Channel
+					- selector
+- 운영체제
+	- 컴퓨터 시스템 자원 효율적 관리. 편의성 환경 제공.
+	- 목적
+		- 처리능력, 신뢰성, 응답시간, 자원활용률, 가용성
+	- 관리대상
+		- 프로세스, 기억장치, 주변장치, 파일
+	- 프로세스
+		- 실행중인 프로그램, 레지스터, 스택, 포인터, 데이터의 집합체이며 자원할당의 기본단위.
+		- 구성
+			- CPU시간
+				- 프로그램이 CPU 차지한 시간
+			- 주소공간
+				- 물리적 실체 대응하는 주소 범위 정의한 공간
+			- 독립된 메모리
+				- stack
+					- 지역변수, 매개변수 등 임시메모리 저장. 함수 호출시 생성, 종료 시 반환
+				- heap
+					- malloc, new 등 프로그래머 동적 사용 공간
+				- data
+					- 전역변수, 정적변수, 배열, 구조체 등 메모리 저장. 프로세스 종료까지 유지
+				- code
+					- 작성한 코드 저장. 프로세스 종료까지 유지
+		- 특징
+			- 프로세스 당 최소 1개 스레드
+			- 별도 주소공간에서 실행
+			- 프로세스간 변수는 기본적으로 접근 불가하며 통신을 통해 접근해야함
+				
+	- 스레드
+		- 프로세스 내 동작 여러 실행의 흐름, 주소공간과 힙공간 공유하는 cpu 이용의 최소단위
+		- 특징
+			- 스택만 따로 할당받고 code, date, heap 공유
+	- CPU 스케줄링
+		- 프로세스 순서 정함
+		- 점유 방식
+			- 비선점
+				- 프로세스 CPU 점유시 독점하며 자진 반납시까지 실행 보장 
+				- 종류
+					- FCFS
+						- First Come First Service
+					- SJF
+						- Short Job First
+					- HRN
+						- Highest Ratio Next
+			- 선점
+				- 프로세스 CPU 점유시 타 프로세스가 CPU 회수가능
+				- 종류
+					- Round-Robin
+						- 같은 시간 할당
+					- SRT
+						- SJF + 선점
+					- Multi Level Queue
+						- 하이브리드 스케줄링, 종류별 큐마다 독자적 알고리즘 따라 CPU 할당
+					- Multi Level Feedback Queue
+						- 하이브리드 스케줄링, 프로세스마다 가중치를 부여해 우선순위큐/라운드로빈 처리
+		- 병행 제어
+			- 상호배제
+				- 공유 불가 자원의 동시 사용 회피하는 알고리즘. 다수 프로세스가 동일 자원 접근시 무결성 보장. 임계영역이란 개념으로 구현.
+				- 임계영역
+					- 공유자원의 독점을 보장하는 코드영역. mutex.
+				- 세마포어
+					- 프로세스의 접근 제어하며 프로세스 사이 동기 유지
+					- 잠자기와 깨우기 연산 이용, 공유자원 수 변수 사용
+					- ex. 빵을 10개만 굽고 자는 주인을 깨우며 빵을 사가는 손님. 빵이 0개면 자는 손님을 깨우며 빵을 채우는 주인.
+				- 모니터
+					- 언어 수준에서 동시성을 제어하며 타이밍 오류를 해결한 상호배제 기법
+					- 상호배제 구현위해 별도 프로그램 필요 없으며, 공유자원을 모니터 내부 지역변수로 정의.
+					- 특징
+						- 세마포어의 이론적 기반.
+						- 순차적으로 사용 가능한 공유자원 및 그룹 할당
+						- 데이터, 프로시저를 포함하는 병행성 구조
+			- 교착상태
+				- 프로세스가 진행이 안되는 특정한 사건 대기.
+				- 발생 조건
+					- 상호배제
+						- 다수가 요구하는 자원에 대해 배타적 통제권 요구
+					- 점유/대기
+						- 자원이 할당된 상태에서 다른 자원을 기다림
+					- 비선점
+						- 자원 점유 불가
+					- 순환대기
+						- 각 프로세스가 순환적으로 다음 프로세스가 요구하는 자원을 가짐
+				- 대응
+					- 예방
+						- 상호배제
+							- 자원 공유 불가 조건 제거
+						- 점유/대기
+							- 필요 자원 일시에 요청	
+						- 비선점
+							- 선점 프로토콜 제공
+						- 환형대기
+							- 프로세스에게 각 자원의 유형별로 우선순위 결정
+					- 회피
+						- 자원 할당 그래프 알고리즘
+							- 자원 타입당 가용 인스턴스 하나일 경우 사용. 클레임 화살표로 데드락 예측해 자원 할당을 대기.
+							- 클레임 화살표
+								- 추후에 자원 요청 가능성 있다는걸 의미
+						- 은행원 알고리즘
+							- 자원당 가용 인스턴스 다수여도 사용 가능. 프로세스에게 자원을 할당했을 때 안전상태 유지하는 경우만 할당하고 그렇지 않으면 대기
+							- 안전상태
+								- 교착상태를 일으키지 않으며 각 프로세스가 요구한 최대 요구량만큼 필요한 자원을 할당해 줄 수 있는 상태.
+								- 시스템 가용자원, 프로세스의 점유자원과 요청자원을 계산해 최적의 순서로 프로세스를 스케줄링 하는 안전순서열이 존재.
+								- 불안전상태 = 데드락상태
+							- 단점
+								- 할당 가능 자원 수가 일정해야 함
+								- 프로세스 수가 일정해야 함
+								- 자원 이용도가 낮음
+					- 탐지
+						- 교착상태 발견 알고리즘
+						- 자원 할당 그래프
+							- 프로세스가 자원을 요청하고 자원이 프로세스에게 할당되는 방향성을 가진 그래프로, 데드락 발생 여부를 탐지할 수 있는 그래프. 
+					- 복구
+						- 프로세스 중지
+						- 자원 선점
+			- 프로세스간 통신
+				- message queue
+					- 선입선출 기반 통신 수행
+- 디스크
+	- 디스크 접근시간
+		- 탐색시간
+			- 특정 실린더로 디스크 헤드 도달 시간
+		- 회전 지연시간
+			- 섹터가 디스크 헤드 도달 시간
+		- 전송시간
+			- 데이터 전송 시간
+	- 디스크 스케쥴링 기법
+		- FCFS
+			- First Come First Served
+		- SSTF
+			- Shortest Seek Time First
+		- SCAN
+			- Head가 이동하는 모든 요청 서비스 끝까지 처리후 역방향 처리
+		- C-SCAN
+			- SCAN에서 바깥에서 안쪽으로 이동
+		- C-LOOK
+			- 진행방향 요청 없을 시 헤드 처음 위치 이동
+- 파일 시스템
+	- FAT (File Allocation Table)
+		- FAT16
+			- MS 호환. 2GB. 암호화 및 압축 불가능. 파일명 최대 영문 8자. 클러스터당 1632B
+		- FAT32
+			- 2TB, 암호화 및 압축 불가능, 파일명 최대 영문 256글자. 클러스터 4KB
+		- NTFS (New Technology File System)
+			- 암호화 및 압축 지원. 가변 클러스터 기본 4KB. 트랜잭션 로깅 통한 복구. Window NT이상.
+	- EXT (EXTended file system)
+		- EXT
+			- MINIX file system 보완. 최대 2GB. 파일명 255byte. 접근제어, inode수정, 타임스탬프 수정 안됨. 단편화 심해지는 문제.
+		- EXT2
+			- 2GB, 디렉토리 개수제한 증가, FSCK 오류수정, 볼륨 32TB, 저장중 오류시 파일시스템 손상가능.
+		- EXT3
+			- 저널링기능, 온라인 파일 시스템 증대, 시스템 변경시 저널에 수정내용 기록, 온라인 조각모음 불필요, 디스크 조각화 최소화
+		- EXT4
+			- 16TB, 볼륨은 1EB, blocking mapping, 저널 checksum, 하위호환성, delayed allocation, 온라인 조각모음, persistent pre-allocation.
+	- UFS (UNIX FILE SYSTEM)
+		- 슈퍼블록
+			- 파일 시스템 크기, I-NODE 테이블의 크기
+		- I-NODE 테이블
+			- 파일 정보, 파일 크기, 위치, 유형 허가권, 날짜
+		- VTOC 디스크 레이블, 부트블록, 실린더그룹, 데이터블록....
+	- RAID ( Redundant Array of Independent Disks)
+		- 디스크 고장 시 복구 위해 2개 이상 디스크에 데이터 저장
+		- RAID 0 (Concatenate)
+			- 디스크 모아 하나의 큰 디스크 
+			- 나누어 저장하나 중복 저장은 않기에 복구 불가
+		- RAID 1 (Mirroring)
+			- 디스크 완전 이중화, 비용 많이 발생, READWRITE 병렬 가능해 속도 빠름
+		- RAID 2 (Hamming Code ECC)
+			- HAMMING CODE 이용해 오류 복구
+			- parity ECC 없는 디스크 복구 위해 개발, 별도 디스크 ECC 저장
+		- RAID 3(Parity ECC)
+			- 페리티 정보 별도 디스크에 byte별 저장
+		- RAID 4(Parity ECC, block)
+			- 페리티 정보 별도 디스크에 블록별 저장
+		- RAID 5(Parity ECC, disperse)
+			- 분산 페리티 구현, 안정성 향상
+		- RAID 6(Parity ECC, multi disperse)
+			- 분산 복수 페리티 구현, 장애발생 상황에서 추가 장애 발생시에도 정상 동작.
+	
+- 리눅스
+	- 리눅스 구성요소
+		- 애플리케이션
+			- User app
+			- daemon
+				- 운영체제 상에서 사용자 직접 제어 않고 백그라운드 작업 프로그램
+				- 시스템 프로세스, 윈도우 서비스 라고도 부름
+				- 동작
+					- 스탠드얼론
+						- 혼자 요청 받아 처리, 서비스 대부분 이 형식 
+						- 요청 언제 들어올지 모르는 상태에서 서비스 가능. 다른작업 없이 바로 데몬이 요청 처리 가능.
+					- 슈퍼데몬
+						- 데몬이 직접 서비스 수행 않고 들어온 요청 따라 해당 데몬 실행
+						- xinetd라는 데몬, 받은 요청에 맞춰 해당되는 데몬 메모리에 적재해 처리.
+				- 윈도우 서비스
+					- 오랜시간 실행, 특정 기능 수행 실행파일, 사용자 미 간섭 설계. 
+					- 윈도우 운영체제 시동시 백그라운드 모드에서 실행
+		- 쉘
+			- 사용자와 운영체제 간 통역해주는 명령어 해석기. 커널을 감싼 껍데기. 커널과 어플리케이션 사이 위치. 
+			- 환경변수
+				- 특정한 의미로 설정된 값.
+				- env : 모든 변수 확인
+			- 종류
+				- C 셸
+					- .cshrc 에 환경변수 저장.
+				- Korn 셸
+					- .kchrc .profile 에 환경변수 저장.
+				- bash 셸
+					- C 셸, Korn 셸 결합. 리눅스에서 가장 많이 사용.
+				- TC 셸
+					- C 셸 강화. 명령 편집.
+			- 셸 쇼크
+				- 환경변수에 빈 함수 넣으면 뒤에 오는 코드 모두 실행. 명령실행, 관리자권한 취득가능. 
+		- 커널
+			- 하드웨어와 소프트웨어를 연결하는 운영체제의 핵심, 프로세스 분배 등 시스템 자원 제어, 주기억장치에 상주.
+		- 파일 시스템
+			- 정보 저장 기본 구조로 트리구조.
+			- 부트블록
+				- 부팅에 관련된 이미지를 가졌으며, 운영체제가 시작되면 제일 처음 읽음
+				- 부트블록이 주기억장치에 올라가면 init을 가동. 이경우PID는 1번 부여 
+			- 수퍼블록
+				- 파일시스템 크기, 빈 블록 리스트, 다음 블록 인덱스, inode 크기 등
+			- inode
+				- 리눅스 커널이 현재 사용하는 자료구조를 유지하는 구조체, 파일/디렉토리에 관한 모든 정보.
+				- 파일에 고유하게 부여, 커널과 파일시스템이 이를 통해 관리.
+				- 정보
+					- 소유자의 사용자 ID, 그룹ID, 파일크기
+					- 파일 생성 시간, 사용 시간, 변경 시간
+					- 파일 링크 수, 접근 모드, 데이터블록 주소
+				- 기능
+					- 할당 및 적용
+					- 파일 생성
+					- 파일 링크
+						- 심볼릭 링크
+							- 윈도우의 바로가기. 
+							- 파일명이 너무 긴 경우 이를 대신해 링크정보를 포함시킨 inode 를 만들고, 원래 파일의 포인터를 정보로 가짐.
+						- 하드 링크
+							- 복사본. 원본을 삭제하거나 이동해도 보존.
+					- 파일 삭제
+				- 블록 관리 방법
+					- 단일/이중/삼중 간접블록. 포인터 개념.
+			- 데이터블록
+				- 실제 데이터 저장
+			- 명령어
+				- fdisk. 하드 초기화 및 디스크 파티션 
+				- mkfs. 하드 디스크 생성
+				- fsck. 무결성 검사
+				- mount. 시스템간 디렉터리 공유. 
+	- 리눅스 부팅
+		- 부트로더. 보조기억장치 OS, 주기억장치로 이동. 
+			- LILO. /etc/lilo.conf
+			- GRUB. /boot/grub/grub.conf
+		- 순서
+			- ROM BIOS > MBR, 부트로더, 커널 실행 > 커널, 하드웨어 확인, root 읽기전용 마운트 수행 > 
+			- 커널, 디스크 검사, root 쓰기전용 마운트 수행. > init 프로세스, PID 1번 할당, /etc/initab 활성화. > init, run level 따라 상이하게 작동
+			- run level
+				- 0 : PROM 감시
+				- 1 : 관리상태 단계. 암호변경시 사용.
+				- 2 : 공유자원 안가진 다중사용자단계.
+				- 3 : 공유자원 가진 다중사용자단계
+				- 5 : 3 기동후 X-window 그래픽모드
+				- 6 : 재부팅. 3으로 재부팅. 
+		- MBR(Master boot record)
+		- VBR(Volumn Boot Record)
+	- 리눅스 디렉토리
+		- bin, 실행파일. boot, LILO. etc, 환경설정. dev, 장치파일. var, 임시파일. proc, 운영체제 정보
+	- 리눅스 인증
+		- 패스워드 입력 > /etc/passwd(shadow) 와 해시함수끼리 비교
+			- pwconv. shadow 에 저장하고 싶다
+		- john the ripper
+			- 크래킹. 패스워드 탈취. brute force. 
+	- 리눅스 권한 관리
+		- 4 : READ, 2 : WRITE, 1 : EXECUTE. USER/GROUP/OTHER
+		- chown : User 변경
+		- 파일 : 666, 디렉토리 : 777
+			- 파일
+				- 실제 정보 담은 개별 문서. 
+			- 디렉토리
+				- 파일을 분류해 놓은 서류철. 폴더라고도 부름
+		- 특수권한관리
+			- setuid
+				- 실행자 명령어가 실행자 권한이 아닌 사용자 권한으로 실행. 4000. s
+				- /usr/bin/passwd 가 이 권한이라 /etc/passwd 수정가능
+			- setgid
+				- 파일 생성자 그룹 소유권 취득. 2000. d
+			- stickybit
+				- 공용 디렉토리 만들어 공유. 1000. t
+				- 누구나 사용 가능하지만 소유자만 삭제가능.
+	- 리눅스 명령어
+		- who, w
+			- 현재 로그인 사용자 정보
+			- /var/run/utmp, 로그인 로그
+		- tty
+			- 사용 터미널 정보
+		- /var/log/wtmp
+			- 로그인 로그. last 로 실행.
+			- 로그인/로그아웃, 시스템, 종료/부팅, 재부팅, 
+		- /var/log/btmp
+			- 로그인실패 로그. lastb 로 실행
+		- syslog
+			- 운영체제 로그 기록 데몬 프로세스. 
+			- /etc/syslogd.conf 로 로그 기록 수준, 기록위치 결정.
+		- cron
+			- 일정 시간에 지정된 작업 반복 실행 프로세스. 
+			- /etc/crontab 파일에 설정된것 읽어 작업수행
+			- 취약점 반복검사. 악성코드 반복실행.
+				-l, 로그인된 계정에 잡힌 작업스계줄
+				-e, 로그인 중인 계정에 작업 등록
+				-r, 현재 crontab 에 등록된 작업 삭제
+				-u, 작업 실행 유저명 설정
+		- at
+			- 정해진 시간 한번만 실행
+	- 악성코드 탐지
+		- 리다이렉션
+			- >, 표준 스트림으로 사용자가 지정한 곳 변경. 
+		- 파이프
+			- |, 명령어 2개 연속사용
+		- find
+			- 공격자의 예상행동
+				- 백도어, 로그삭제, 리버스연결(방화벽은 보통 인바운드), 과한 권한 부여
+			- 행위 탐지
+				- 파일명, 과한 권한, 시간대 확인
+			- wep shell(php, jsp 등)
+			- find perm 6000...
+			- find / -mtime +5
+				- atime (access time)
+				- mtime (modify time)
+				- ctime (change time)
+		- 특정 사용자가 소유자인 파일
+		- 무결성 검사
+			- tripwire : 해시값으로 파일 무결성 검사
+	- 방화벽
+		- iptables
+- 윈도우
+	- 파일시스템
+		- FAT, NTFS 지원
+		- NTFS
+			- 파일 암호화 가능, 쿼터, FAT 호환불가, NT/2000/XP 사용가능
+	- 인증 프로세스
+		- winlogon
+			- 윈도우 로그인 프로세스
+		- GINA (msgina.dll)
+			- winlog 가 로딩해 사용자 계정/암호 LSA 에게 전달
+		- LSA (lsass.exe)
+			- 계정/암호 검증. NTLM모듈 로딩하고 계정검증. SRM 작성 감사로그 기록.
+		- SAM
+			- 계정정보 저장. /etc/shadow같은 역할.
+		- SRM
+			- 고유 SID, 권한 부여
+	- 실행 프로세스
+		- c:/windows/system32 에 위치.
+		- wininit.exe
+			- 윈도우 시작 프로그램
+		- services.exe
+			- 윈도우 서비스 관리
+		- lsm.exe
+			- local session manager. 시스템 관리, 함수 실행, 서버 연결 관리
+		- lsass.exe
+			- Local Security Authority Subsystem Service
+			- 로그인 검사, 비밀번호 관리, 엑세스 토큰, Security log 작성
+		- svchost.exe
+			- 서비스 관리 위한 프로세스. 
+		- conhost.exe
+			- 키보드, 마우스 입력, 문자출력, 콘솔 API 등 셸 기능
+	- 실행파일 구조
+		- .data, .Idata, .edata, .rsrc
+	- 계정
+		- 내장 사용자 계정
+			- Users, Account Operator, Printer Operator, server Operator
+		- 유니버셜 그룹 계정
+			- Administrator, Users, Guest, Backup Operator, Power Users
+	- NTFS
+		- FAT 개선, 윈도우 서버용 파일시스템
+		- USN 저널, ADS, Sparse 파일, 파일압축, VSS, EFS, Guotas, Unicode, 동적 bad cluster 할당,
+		- 대용량 지원
+		- 구조
+			- VBR(Volume Boot Record)
+				- 부트섹터, 부트코드, NTLDR 위치
+			- MFT(Master File Table)
+				- NTFS 메타정보, 파일/디렉터리 정보, 위치, 속성, 시간, 파일명, 크기
+			- Data area
+	- 공유폴더
+		- share : 공유폴더 목록확인
+	- 레지스트리
+		- 정보 저장 관리 계층형 데이터베이스
+		- key, value, datatype, data
+		- 루트키
+			- 최상위레벨 레지스트리키.
+			- HKEY_CLASSES_ROOT
+				- 확장자 정보, 연결 정보
+			- HKEY_LOCAL_MACHINE
+				- 드라이버 설정
+			- HKEY_USERS
+				- 사용자 정보
+			- HKEY_CURRENT_CON-FIG
+				- 디스플레이, 프린트 설정
+		- 하이브
+			- 레지스트 정보 가진 물리적 파일. 커널에서 관리.
+			- SAM, SECURITY, SYSTEM, SOFTWARE, DEFAULT, NTUSER.DAT 에 존재. 
+			- C:/WINDOWS/system32/config 에 존재. regback, 하이브 백업. 
+			- 분석시 윈도우 로그 대부분 획득 가능.
+		- 주요 키
+			- HKLM/SOFTWARE/MICROSOFT/WINDOWSNT/CURRENTVERSION
+				- 윈도우 버전정보
+			- HKLM/SYSTEM/CONTROLSET00X/CONTROL/COMPUTERNAME/ACTIVECOMPUTERNAME
+				- 컴퓨터 이름
+			- HKEY_LOCAL_MACHINE/SOFTWARE/MICROSOFT/WINDOWS/CURRENTVERSION
+			- HKEY_CURRENT_USER/SOFTWARE/MICROSOFT/WINDOWS/CURRENTVERSION
+				- 시작프로그램 레지스트리키
+			- HKU/USER/SOFTWARE/MICROSOFT/WINDOWS/CURRENTVERSION/EXPLORER/RUNMRU
+				- 최근 명령어
+		- 이벤트로그
+			- 윈도우 이용내역 로그
+			- .evt
+			- 계속 기록 형식 아니라 일정 크기가 되면 덮어쓰는 형식.
+			- 로그 종류
+				- 응용프로그램 로그
+				- 보안 로그
+				- 시스템 로그
+		- 웹 아티팩트 분석
+			- 사용자가 웹사이트 이용흔적 분석. 캐시, 히스토리, 쿠키 분석.
+			- 웹브라우저 캐시
+				- 캐시 데이터
+					- 다운받은 이미지, 텍스트, 아이콘
+				- 캐시 인덱스 
+					- 다운로드 URL, 시간, 데이터크기
+			- 히스토리 정보
+				- 방문 URL, 시간, 횟수, 제목
+			- 웹브라우저 쿠키
+				- 방문 로그
+			- 위치
+				- 하위 : index.dat (분산)
+				- tkddnl : WebCacheV01.dat (통합)
+	- 바이러스
+		- 악성코드와 달리 자기복제 가능
+		- 세대
+			- 원시형
+				- 아마추어. 주기억장치 상주, 부트영역/파일 감염. 
+				- ex. 돌, 예루살렘 바이러스
+			- 암호화
+				- 프로그램 암호화, 백신 탐지 어려움.
+				- ex. 폭포. 느림보.
+			- 은폐형
+				- 실행파일에 은폐해 크기 증가시킴. 백신으로 탐지 용이. 
+				- ex. 맥가이버. 브레인. 512
+			- 갑옷형
+				- 다양한 암호화기법. 백신 탐지 어려움. 
+				- ex. 다형성. 자체변형
+			- 매크로
+				- 엑셀, 워드같이 매크로명령 프로그램 감염. 
+		- 감염대상
+			- 부트
+			- 파일
+				- 기생형
+				- 겹쳐쓰기형
+				- 산란형
+				- 연결형
+		- DDE 취약점 (Dynamic Data Exchange)
+			- 애플리케이션 간 데이터전송 프로토콜. 
+			- 워드, 문서를 열때 연결 자동 업데이트 제거
+	- 악성코드
+		- shellcode
+			- 취약점 공격 기계어 코드, 공격자가 시스템 명령 쉘 실행
+			- 로컬쉘코드
+				- 대상시스템에 제한된 접근권한 가진 경우 BOF등 취약점 있는 ROOT 권한 가진 프로세스 공격해 해당 프로세스와 같은 권한 획득하기 위해 사용.
+			- 원격쉘코드
+				- 네트워크상 취약점 존재 프로세스 공격시 사용
+		- heapspray
+			- 셸코드를 힙영역에 뿌림. 
+			- free함수를 이용해 힙 메모리를 해제하고 뒤에 해제한 메모리를 가리키는 코드를 볼 수 있어 사용자가 그 사이 힙 메모리를 할당받는다면 스프레이를 통해 해당 포인터가 가리키는 주소까지 할당받을 수 있음.
+			- 스프레이가 정상적으로 이루어지면 포인터가 가리키는 값은 다시 정상적으로 할당받은 힙 메모리가 되고 이곳에서 공격자 코드 실행. 
+			- 특징
+				- 스프레이 후 어떤 값이 포인터 주소에 정확히 위치하는지 알수 없어 코드 중간에 포인터가 위치하면 실패 가능
+				- 메모리는 항상 연속된 위치에 할당되는 것이 아니며 기존 사용중 메모리 있거나 캐쉬된 메모리 재할당 등으로 빈틈 가능.
+			- ASLR (Address space Layout Randomization)
+				- 실행파일 메모리에 로드될 시 기본주소는 항상 동일하기에 이를 랜덤화.
+				- 이를 이용해 해당 주소에 악성코드.
+				- ASLR 설정 : sysctl -w kernel.randomize_va_space=1 
+		- 버퍼 오버플로우
+			- 프로세스 가용 메모리공간 초과 발생
+			- 비권고 : strcpy, strcat, getwd, gets, scanf, sprint
+			- 권고 : strncat, strncpy, fgets, fscanf, vfscaf, snprintf
+		- 스택 버퍼 오버플로우
+			- 스택에 저장된 복귀주소가 지역변수에 침범
+		- 힙 버퍼 오버플로우
+			- 동적 할당 공간이 힙에 저장되어 경계값을 검사하지 않고 사용시 메모리가 경계 초과
+		- race condition
+			- 두개 이상 프로세스 한정 자원 갖고 경쟁적으로 수행시 발생
+		- APT (Advanced Persistent Threat)
+			- SNS, Mail, Zeroday attack 등 다양한 공격 지속적으로 수행
+			- 침투 > 탐색 > 수집/공격 > 유출
+			- 바이너리 디핑
+				- zero day attack 취약점 탐지 기법. 리버스 엔지니어링.
+			
+
+
+- 어플리케이션 보안
+- 응용계층
+	- 사용자에게 서비스 제공. 
+		- HTTP
+			- Hypertext Transfer Protocol
+		- SMTP
+			- Simple Mail Transfer Protocol
+			- 절차
+				- 메일, SMTP 서버 전송, SENDMAIL 통해 찾아감
+				- Store and Forward, 전체패킷 수신/저장/전송 
+			- 구성
+				- Mail transfer agent, Mail delivery agent, Mail user agent
+		- FTP
+		 	- File Transfer Protocol
+			- ftpusers : FTP 차단유저
+			- 포트번호
+				- 22 : Telnet
+				- 53 : DNS
+			- 데이터 전송 연결
+				- 능동
+					- 21번포트 : 접속
+					- 20번포트 : 데이터전송
+				- 수동
+					- 21번포트 : 접속	
+					- 1024번 ~ : 데이터전송
+			- 종류
+				- FTP : 인증O. TCP
+				- tFTP : 인증X. UDP
+				- sFTP : 전송구간 암호화기법 사용
+			- FTP log 기록
+				- Xferlog 파일기록
+					- Sat Oct 29 21:35:39 2020 1 111.11.111.11 70 /home/aa.txt a_i r test ftp 0 * c
+					- 저 날짜에 저 아이피에서 파일업로드 성공.
+					- -l 옵션으로 기록 가능.
+			- FTP 보안취약점
+				- Bounce Attack
+					- FTP 데이터 전송시 목적지 검사 않는 특징, 전송 주소 임의 지정
+				- Brute Force
+				- 포트스캐닝
+				- tFTP Attack
+				- Anonymous FTP attack
+				- FTP server week point
+				- Sniffing
+		- SNMP
+			- Simple Network Management Protocol
+- 전송계층
+	- TCP
+		- 클라이언트/서버 연결지향
+		- 신뢰성, 에러제어, 순서제어, 혼잡제어
+	- UDP
+		- User datagram protocol
+		- 빠름, 비신뢰성, 비접속형
+- 네트워크
+	- IP
+		- 주소화, 데이터그램 포맷, 패킷 핸들링
+		- 데이터그램
+			- IP 전송단위. 최대 65536바이트. 헤더/데이터 구성.
+			- 헤더
+				- VER
+				- HELN
+					- 헤더길이
+				- SERVICE TYPE
+					- 데이터그램 우선순위, 라우터에 요구되는 서비스종류
+				- TOTAL LENGTH
+				- IDENTIFIER
+					- 노드의 IP프로토콜이 부여한 식별자
+				- FLAG
+					- 데이터그램 단편화
+				- FLAGMENT OFFSET
+					- 원래 데이터그램 오프셋
+				- TTL
+					- 데이터그램 존재 최대 시간
+				- PROTOCOL
+					- 상위계층 프로토콜 번호
+				- HEADER CHECKSUM
+					- 헤더에 대한 에러 검출 코드
+				- SOURCE IP ADDRESS
+				- DESTINATION IP ADDRESS
+				- OPTION
+				- PADDING
+					- 옵션 4바이트 배수 패딩
+				- DATA
+		- MTU
+			- 한번에 통과 가능한 패킷최대크기
+		- IP주소
+			- 네트워크주소 + 호스트주소
+	- ICMP
+		- Internel Control Message Protocol
+		- IP 에러시 출발지로 에러정보 전송
+		- 메시지
+			- Destinaion unreachable
+				- Network, host, protocol, port unreachable
+			- Source quench 
+				- 패킷이 너무 빨라 네트워크 제어
+			- Redirection
+				- 패킷 라우팅 경로 수정
+			- | 0 Echo request
+				- Host 존재 확인
+			- Time exceeded
+				- 시간 경과, 패킷 삭제
+		- PING
+			- Paket Internet Groper, 컴퓨터 네트워크 존재를 확인
+	- ARP/ RARP
+		- Address Resolution Protocol
+		- IP주소를 MAC주소 변환
+- 데이터링크, 물리
+	- IP주소 > MAC 주소 변환. 에러제어. 흐름제어
+	- CSMA/CD
+	 	- Carrier Sense Multiple Access Collision Detection
+		- 유선 랜 메시지 송수신
+	- CSMA/CA
+		- Carrier Sense Multiple Access Collision Avoidence
+		- 무선 랜 메시지 송수신
+- 네트워크 공격
+	- Dos
+		- Denial of Service
+		- 서비스 거부 공격. 서비스 계속 호출, 컴퓨터 자원 고갈, 헤더 변조, flooding(brute force)
+	- DDos
+		- Distributed Denial of Service
+		- 분산 서비스 거부 공격. 다수 서버 DDOS
+		- TCP SYN flooding
+		- ICMP Flooding (smurf)
+		- Tear Drop
+			- fragment 패킷 전송, offset값 조작 중첩 유발.
+		- Ping of Death
+			- Ping 이용 MTU이상 패킷 조정
+		- Land Attack
+			- 송신IP - 수신IP 동일 설정
+		- HTTP get flooding
+		- Cache Control Attack
+			- Cache - control header 옵션 사용해 계속 새 페이지 요청
+		- Slow HTTP get/post attack
+			- 정상 IP 기반 공격, 소량의 트래픽/세션 연결
+		- Hash Dos
+			- 해시테이블 인덱스정보 중복되도록 유도 조회 시 CPU자원 소모
+		- Hulk Dos
+			- 공격대상 URL을 지속 변경해 DDos 차단정책 우회
+	- 포트 스캐닝
+		- 취약점 찾는 사전작업으로 어떤 포트로 서비스하는지 확인. 
+		- TCP open scan
+			- SYN 패킷 전송. 연결 수립. (SYN+ACK/RST+ACK)
+		- TCP half open scan
+			- SYN 패킷 전송. 연결 미수립.(SYN+ACK/RST+ACK)
+		- FIN scan
+			- FIN 패킷 전송(응답X/RST)
+		- UDP scan
+			- UDP 패킷 전송(응답X/Unreachable)
+		- X-mas scan
+			- FIN, PSH, URG 패킷 전송(응답X/RST)
+		- NULl scan
+			- NULL 패킷 전송. (응답X/RST)
+	- 스니핑
+		- promiscuous 모드
+			- 랜카드 들어오는 모든 패킷 맥주소 관계없이 모두 받는 모드 
+				- 일반적으로 본인 주소 아닌 패킷 폐기
+		- tcp dump
+			- 패킷분석기. 네트워크 트래픽 분석
+	- 세션 하이재킹
+		- TCP 세션 탈취 후 인증우회. UDP는 세션이 없어서 불가능.
+		- 방법
+			- Sequence Number 스니핑, RST(Reset)로 sequence number 초기화, 갈취
+		- 종류
+			- Blind attack
+			- Non Blind attack
+	- 스푸핑
+		- IP 변조, syn flooding으로 포트확인, 인증우회
+	- ARP 스푸핑
+		- 맥주소 탈취, 인증우회
+- SNS 공격
+	- APT
+		- Advanced Persistent Threat
+		- SNS로 악성코드 배포, 지속 공격
+		- ex. 제로데이, MAIL, 백도어
+- 랜섬웨어
+	- 사용자의 문서를 암호화. SD카드 백업도 무소용.
+	- 크립토락커
+		- RSA, AES로 암호화. 
+- 네트워크 대응
+	- firewall
+		- 네트워크 트래픽 모니터링 하며 접근통제
+			- 인바운드(외부 > 내부 규칙), 아웃바운드
+		- 종류
+			- 패킷필터링
+				- 1세대 방화벽. 3,4계층서 패킷의 IP/포트 확인, 접근여부 결정
+				- 빠름, 유연성, 취약성
+			- 애플리케이션 게이트웨이
+				- 2세대 방화벽. 7계층까지 동작하며 패킷 헤더영역까지 체크
+				- 프록시, 서비스 요청에 규칙 적용하고 연결 대신함. 
+				- 프록시
+					- 서버와 클라이언트간 중계기, 클라이언트 통해 네트워크 간접적 접속하게 해주는 프로그램
+					- 데몬의 일종, 보안성, 유연성 낮음
+			- 회선 게이트웨이
+				- 2세대 방화벽. 5계층과 7계층 사이에서 동작.
+				- 서비스별 프락시가 아니라 모든 서비스 이용가능한 대표 프락시 설정
+				- 클라이언트, 방화벽 내부 프락시와 연결해 안전한 통신 Circuit 구성 후 통신
+			- 상태 기반 패킷 검사
+				- 3세대 방화벽. 3계층 동작, 프로토콜 상태정보 테이블, 프로토콜 특성에 따른 변환 동적 대응
+				- 세션 추적 가능, 네트워크 순서 추적해 위배되는 패킷 차단 
+					- ex. 내부 정상적인 ping request에 대한 ping reply는 허용, 내부자의 request 가 존재하지 않는 ping reply 차단
+			- 심층 패킷 분석
+				- 3세대 방화벽. 컨텐츠까지 모두 검사
+	- 침입차단 시스템 구축 유형
+		- 스크리닝 라우터
+			- 외부와 내부망 사이 패킷필터링 규칙 적용해 방화벽 역할 수행하는 구조
+			- 내부 네트워크와 외부 네트워크 사이 패킷 트래핏 permit/drop
+			- 단점
+				- 세부 규칙 적용 까다롭고 트래픽 폭주 잡지 못함
+		- 배스티온 호스트
+			- 완벽에 가깝게 방어정책이 구현된 시스템. 로깅, 모니터링, 접근제어, 프록시, 인증 등 구현.
+			- 내부 네트워크 전면에서 내부 네트워크 전체 보호. 외부 인터넷과 내부 네트워크 연결. 
+			- 단점
+				- 방화벽 손상시 내부공격에 무방비, 2계층 우회 공격 가능
+		- 듀얼 홈드 호스트
+			- 네트워크 카드 2개 이상 갖춰진 방화벽. 내부, 외부에 대해 각각 운영.
+			- 내부에서 외부로 향하려면 반드시 이중 홈 게이트웨이를 지나야해 좀 더 효율적 트래픽 관리
+			- 2개의 NIC로 외부 네트워크와 내부 네트워크를 연결. 프록시 기능.
+		- 스크린드 호스트
+			- 스크리닝 라우터에서 3,4계층 접근제어, 베스천호스트에서 7계층 접근제어 해 안전.
+			- Screening Router, Bastion Host 구성
+		- 스크린드 서브넷
+			- 외부 내부 가운데 DMZ 위치시켜 버퍼 구성. 그곳엔 프록시 설치. 안전하지만 설치/관리 어렵고 느림. 
+			- 외부네트워크와 내부네트워크 사이 하나 이상 경계 네트워크 생성 (스크리닝라우터2개, 배스천 호스트 1개)
+	- 침입 탐지 시스템
+		- IDS, Intrusion Detection System.
+		- DB에 저장된 패턴 정보를 바탕으로 시스템의 침입을 실시간 모니터링하는 보안 시스템
+		- 오용탐지
+			- 패턴 저장하고 동일시 공격을 식별하는 시그니처 기반 탐지방법. 
+			- False negative 큼. 
+		- 이상탐지
+			- 이상을 탐지하는 행위 기반 탐지방법
+			- False positive 큼.  
+		- NIDS
+			- Network Based IDS. 네트워크 패킷검사. 부가장비 필요
+		- HIDS
+			- Host Based IDS. 시스템상 설치. 시스템 로그 검사.
+		- Snort
+			- 패킷탐지 침입탐지 시스템. 프로토콜 분석, 컨텐츠 검색, 웜, 취약점 공격, 포트스캔, 버퍼오버플로우 등 다양한 공격 감지 opensource Alert
+			- alert tcp ip port -> ip port | (msg: "massage";sid:1000000; content:"content" flag:SYN)
+			- 룰 헤더
+				- action
+					- alertf
+						- 선택한 방법으로 alert 발생후 패킷 로그에 남김
+					- log
+						- 패킷 로그에 남김
+					- pass
+						- 무시
+					- activate
+						- alert 발생시키고 대응하는 dynamic rule 활성화
+					- dynamic
+						- activate rule 에 의해 활성화, log rule 과 동일히 동작
+					- drop
+						- 패킷 차단 후 로그에 남김
+					- reject
+						- drop rule 과 동일히 패킷 차단하고 로그에 남긴후 TCP인 경우 TCP reset 전송, UDP인 경우 ICMP port unreachable 전송.
+					- sdrop
+						- 패킷 차단하지만 로그엔 안남김
+				- protocol
+				- IP / PORT
+				- Direction operator
+			- 룰 바디
+				- msg
+					- msg 옵션에 기록된 내용 alert 발생시 이벤트 이름으로 사용
+				- reference
+					- rule 과 관련된 외부취약점 정보참조시 사용
+				- SID
+					- snort rule id. 99이하 : 시스템에 예약된 sid, 100 - 1000000 : snort 에서 배포하는 룰셋에서 쓰는 sid, 1000001 이상 : 사용자 정의 rule서 쓰는 sid
+				- classtype
+					- 공격 유형과 기본 우선순위 정의. 1 : 높음, 2 : 중간, 3 : 낮음
+				- priority
+					- rule 의 우선순위에 대해 숫자 표기. priority 지정시 classtype을 앞지름.
+				- content
+				- flag
+			- 범위
+				- content
+					- 페이로드에 검사할 직접적 문자열 지정. binary, text 혹은 복합 형식일 수 있음
+				- uricontent
+					- content 문자열을 전체패킷과 비교하는 대신 HTTP 클라이언트 요청 URI정보를 검사할 문자열 지정.
+				- offset
+					- 페이로드에서 content 패턴 검사할 시작위치
+				- depth
+					- 몇바이트까지 검사할지 결정
+				- distance
+				- within
+				- nocase
+					- 대 소문자 미 구분
+			- type
+				- threshold type ..., track by src, count c, seconds s
+				- limit
+					- 매 s초 동안 c번째 이벤트까지 action 수행
+				- threshold
+					- 매 s초 동안 c번째 이벤트마다 action 수행
+				- both
+					- 매 s초 동안 c번째 이벤트 시 한번 action 수행
+	- 침입 방지 시스템
+		- IPS. Intrusion Prevention System
+		- 공격 시그니처 찾아 비정상 패턴 감지하고 차단
+		- Honeypot
+			- 의도적으로 취약한 사이트 해킹에 노출시켜 해킹기법, 행동 분석
+	- VPN
+		- Virtual Private Network. 가상개인사설망.
+		- 공중망 이용해 사설망 가상 구축 방법
+		- SSL VPN
+			- 웹브라우저 이용한 VPN 소프트웨어. 설치 필요 없음. 
+			- 인증, 무결성. 기밀성, 부인봉쇄 
+		- IPSEC VPN
+			- 터널모드, 전송모드 이용한 VPN
+		- PPTP VPN
+			- Point To Point Tunneling Protocol. 
+			- IP 네트워크에 전송하기 위한 터널링 기법, 데이터링크계층에서 동작
+		- L2TP VPN
+			- Layer 2 Tunneling Protocol. 
+			- PPTP 확장한 터널링 프로토콜, 데이터링크계층에서 동작
+	- UTM
+		- Unitied Threat Management
+		- 방화벽, VPN, IDS, IPS등 보안기능 통합 솔루션. 
+		- 다양한 보안위협 대응가능, 낮은 비용, 유지보수 편리.
+	- NAC
+		- Network Access Control, 등록 안된 단말기 식별 차단, 네트워크 무결성
+		- 정책관리서버
+			- 정책 설정, 접근 로그 관리
+		- 차단서버
+			- 단말기 통제, 탄말기 정보 수집 분류, 트래픽 감지
+		- 에이전트
+			- 사용자 단말기 설치, 무선 인증 지원
+		- 콘솔
+			- 웹기반 네트워크 보안정책 성적, 감사, 모니터링 대시보드
+	- ESM
+		- Enterprise Security Management, 기업 정보보안 정책 반영. 보안시스템 통합한 통합 보안관제 시스템
+			- 기업 자산 및 자원관리
+			- 보안감사, 상관성분석
+	- 무선랜 보안기법
+		- SDR
+			- Service set ID
+			- AP는 동일한 SSID 를 가진 클라이언트만 접속허가
+				- SSID
+					- Service set Identifier
+					- 무선랜 통해 전송되는 패킷들의 각 헤더에 덧붙여지는 32바이트 길이 고유 식별자. 무선장치들이 BSS(basic service set)에 접속할때 암호같이 사용된다. 
+					- SSID는 하나의 무선랜을 다른 무선랜으로부터 구분해주기에 특정 무선랜에 접속하련느 모든 AP(Access point)나 무선 장치들은 반드시 동일 SSID 사용해야한다.
+		- WEP
+			- Wired Equivalent Privacy
+			- IEEE 802.11b RC4 스트림암호화 알고리즘. 40bit 키 사용
+		- WPA
+			- Wifi Protect Access
+			- IEEE 802.1x/EAP, 128bit 동적암호화
+			- EAP
+				- Extensible Authentication Protocol
+				- 사용자인증 프로토콜. station과 AP간의 temporal key를 동적으로 생성하고 무선구간에 암호화 수행.
+				- VPN같은 PPP(Point to Point Protocol)연결 네트워크 접근 인증에 대해 확장성 제공 프레임워크.
+		- WPA2
+			- IEEE802.11i, WPA + AES
+		
+- 애플리케이션 보안
+	- E-mail 보안
+		- MDA
+			- Mail delivery agent. 전송자
+			- SMTP
+				- Simple Mail Transfer Protocol
+				- 메일을 보내는데 활용
+				- TCP25 / DNS MX / 응용계층
+			- POS3
+				- Post Office Protocol Version3
+				- 수신자가 메일을 검색하는데 활용
+				- 원격 서버로 TCP/IP 통신으로 E-mail 수신시 사용. 수신후 서버에서 메일 삭제. 
+				- TCP 110 / 응용계층
+			- IMAP
+				- Internel Message Access Protocol
+				- 수신자가 메일을 검색하는데 활용
+				- 메일 서버에 저장, 소프트웨어 상관 X.
+				- 복잡성 / 보안문제 해결
+		- E-mail 보안기법
+			- PGP
+				- Pretty Good Privacy
+				- MIME(Multipurpose Internet Mail Extension) 객체 + 암호화, 전자서명 프로토콜
+				- 송수신자 보안서비스 제공, 평문메시지 암호화.
+				- 메세지 암호화(3DES, IDEA), 서명(DSS/SHA), 압축, 분할
+				- 전자우편호환성, 세션기 생성(RSA, DiffieHelman), 이메일호환(ASC code)
+					- SHA
+						- Secure Hash Algorithm
+			- PEM
+				- Privacy Enhanced Mail
+				- 중앙집중화된 키 인증방식. 구현 까다로움
+				- 군사, 은행 사용
+			- S/MIME
+				- Secure Multipurpose Internel Mail Extension
+				- 표준보안 메일규약
+				- 메일 전체 암호화
+		- /etc/mail/access 작성규칙
+			- RELAY
+			- DISCARD
+			- 501
+			- 550
+		- Spam 메일 차단방법
+			- RBL
+				- Real Time Blocking List
+				- 참조서버로부터 유해메일 전송IP 차단
+			- SPF
+				- Sender Policy Framework
+				- 발신자 SPF레코드를 DNS 저장후 정보확인
+			- Spam Assasin
+				- 점수를 이용하여 스팸차단
+				- RBL 서버 참고
+					- Realtime Blocking list. 실시간 차단IP 탐지 후 이를 공개
+			- 아파치 웹서버 보안
+				- Directory listing
+					- 주요 디렉터리 및 파일 접근 권한
+				- Server Tokens
+				- Server Signiture
+	- DNS 보안
+		- DNS 확인 
+			- ipconfig/displaydns 
+		- DNS Query
+			- Recursive Query
+			- Iterative Query
+		- DNSSEC
+			- DNS 응답정보에 전자서멍값 첨부
+	- DB 보안
+		- 위협요소
+			- 집합
+				- 낮은 보안등급 정보로 높은 등급 얻기
+ 			- 추론
+ 				- 보안등급 없는 정보 접근해 기밀 유추
+ 		- 보안기법
+ 			- Plugin
+ 				- 데이터베이스 서버에 별도 암호화솔루션 설치
+ 			- API
+ 				- 암호화 API 호출 통해 암호화 수행
+ 		- 백업방식
+ 			- 전체백업
+ 			- 차등백업
+ 				- 가장 최근에 수행된 전체백업 이후 변경된 모든 DB 백업
+ 			- 증분백업
+ 				- 가장 최근 백업 이후 변경된 것만 백업
+		- DB 인증 / 윈도우 인증
+			- DB인증
+				- DB사용자 ID와 PW를 입력
+			- 윈도우인증
+				- 윈도우 시스템에 대한 인증. DB와는 별도. 
+	- 전자상거래보안
+		- 전자회폐
+			- 전자기기에 전자기호 형태로 화폐적 가치를 저장, 전자적 지급수단 활용
+			- 조건
+				- 익명성
+				- 가치이전성
+				- 분할성
+				- 독립성
+				- 익명성 취소
+			- 종류
+				- Mondex
+					- 개인간 송금을 허용하는 오픈시스템. 은행을 통하지 않음.
+				- E-cash
+				- Proton
+					- 유럽에서 활발히 사용되는 전자화폐
+				- Net Cash
+			- SET
+				- Secure Electronic Transaction
+				- visa, master 개발 지불처리 프로토콜
+				- 전자상거래 인증 상호작용 보장, SSL보다 느림, 지급결제 처리 복잡
+				- 이중서명
+					- 가맹점 정보와 소유자 정보를 분리해서 서명. 고객의 프라이버시 보호. 금융기관에 신용카드 지불정보만을 보냄.
+				- 절차
+					- 인터넷 카드결제 > PG(Payment Gateway)사 Active X로 카드결제 프로그램 기동 > 사용자 카드번호 입력, 결제 의뢰 > SET, 이중서명 사용, 카드소유자/가맹점 정보 분리해서 서명, PG사 전송 > PG사, 신용카드 회사에 결제 요청 
+				- 이중해시, 대칭키, 공개키, 전자서명, 해시함수 사용
+				- 은닉서명
+					- 서명자가 서명문 내용을 알지 못하는 상태에서 서명. 전자화폐에 사용.
+			
+			- escrow service
+				- 인터넷 구매시 상품이 소비자에게 인도된 후 대금 지급 시스템 
+			- OTP
+				- One Time Password
+				- 한번만 생성된 난수를 패스워드로 사용
+				- 특징
+					- 매시간 자동으로 비번 생성하며 시간을 기준으로 생성자와 인증서버가 동기화
+					- 일정시간 OTP를 은행에 전송하지 못하면 새 OTP 생성을 기다려야함
+					- 동기화된 기준값에 따라 시간동기화와 이벤트동기화로 분류
+				- 동기식
+					- 고정된 시간 간격 주기로 난수 값 생성, 인증 횟수 기준값
+				- 비동기식
+					- 질의응답(challenge response)
+						- OTP 생성매체와 은행의 OTP서버 사이 동기화되는 기준값이 없으며 사용자가 직접 임의의 난수를 OTP 생성매체에 입력해 OTP 생성 방식.
+						- 절차 
+							- 사용자(로그인) > 서버(질의값) > 사용자(OTP질의입력) > OTP생성
+						- 특징
+							- 책임소재 명백
+							- 은행이 질의값 관리해야함	
+	- 		- SQL injection
+				- 입력값을 우회해 SQL 쿼리를 전송해 DB 값을 얻거나 권한 탈취
+				- 도구
+					- Havij, Panglin, HDSL
+				- 인증우회, Blind SQL injection, Mass SQL injection, Union SQL injection
+		- SSL
+			- Secure socket layer
+			- 세션
+				- 
+			- Netscape 개발. 안전한 통신 지원. 전송/응용계층. 
+			- http, ftp, telnet, mail
+			- 기밀성, 무결성, 인증
+			- 구성요소
+				- change cipher spec protocol
+					- ssl 중 가장 단순한 프로토콜로 암호 알고리즘, 키교환 알고리즘, MAC암호화, Hash 알고리즘을 웹 브라우저/웹 서버에 공지하는 것
+					- 사용할 인증정보는 SSL handshaking에서 공유된다.
+				- 비정상 동작 발생시 사용되는 프로토콜 존재
+				- Record protocol
+					- 송신
+						- 협의된 알고리즘을 사용해 데이터를 암호화, 산출된 데이터를 블록으로 나눈후 MAC 붙여 전송
+					- 수신
+						- 데이터복호화, MAC유효성 검사, 압축해제, 재결합 > 상위계층 전달
+			- SSL handshaking
+				- client hello
+					- C (암호알고리즘, 키교환알고리즘, MAC암호화, HASH알고리즘) > S
+				- server hello
+					- S (서버지원알고리즘) > C
+				- Server hello done
+					- S (요청종료 공지) > C
+				- certificate
+					- C (인증서 요청) > S (인증서) > C (인증서 확인)
+				- exchange key
+					- C (서버 공개키 암호화) > S
+				- 인증서 확인
+					- S (premaster key 복호화) 
+				- masterkey 생성
+					- S, C (premaster key 로 session key 생성)
+				- client finished
+					- C (완료 공지) > S
+				- server finished
+					- S (동의, 알고리즘공지)
+		- exploit
+			- 컴퓨터의 보안취약점을 이용한 공격으로 결함을 이요해 의도된 공격 수행하게 함
+			- zero day attack
+				- 최신 보안 이슈로 공격. 막을 시간이 없음을 의미.
+			- BOF
+				- Buffer OverFlow
+				- 버퍼 이상 데이터 들어올 시 타 영역 데이터 침범해 경계검사로 방지
+				- 경계검사
+					- /etc/system /etc/sysctl 에서 수행
+			- XSS
+				- Cross site scripting
+				- 실행가능한 스크립트 전송하는 공격기법
+				- 세션 갈취, 공격대상 : 클라이언트
+			- CSRF
+				- Cross site request Forgery
+				- 사용자의 권한을 탈취해 웹사이트 요청
+				- 서버와 클라이언트의 신뢰관계 이용
+				- 공격대상 : 서버
+		- DRM
+			- Digital Right Management
+			- 디지털 컨텐츠 저작권 저작자의 권리, 이익 보호 관리 시스템
+			- WaterMarking
+				- 디지털 컨텐츠 소유권 추적 기술
+			- Fingerprint
+				- Dual water marking
+				- 디지털 컨텐츠 구매자 정보 삽입
+		- 디지털 포렌식
+			- 디지털 기기를 대상으로 한 특정 행위의 사실관계 증명을 위한 방법 및 절차
+			- 준비 - 획득/이송 - 분석 - 분석서 작성 - 보관
+			- 원칙
+				- 정당성 원칙
+					- 수집한 자료의 적법 절차
+				- 재현 원칙
+					- 재현 가능성
+				- 신속성
+				- 절차 연속성
+					- 담당자 및 책임자 명확
+				- 무결성
+					- 증거 위변조 금지
+			- 휘발성 데이터 수집 우선순위
+				- Register/cache > Routing table, ARP cache, process table, kernel statics > Memory > 임시파일 > disk > 
+				- Remote logging, monitoring date > Physical configuration, network topology > archival media
+				- remote logging
+					- 사용자가 떨어진 사이트에 로그인하는 기록
+				- network topology
+					- link, node 등 network에 있는 요소들의 나열
+			- 비휘발성 데이터 수집 우선순위
+				- registry, 시간, cache, cookie, history, email
+				- 암호화된 파일, 윈도우 로그
+		- 신용카드
+			- CSS
+				- Credit Scoring System
+				- 누적된 고객의 거래정보를 통계적으로 분석해 고객의 신용도를 예측하는 개인신용평가기법
+			- CSC
+				- Card Security Code
+				- 신용카드/체크카드 등 물리적 카드를 제시하지 않고 거래할 수 있는 보안코드
+				- CVV (Card Verification Value), CVC (Card Verification Code) 라고도 부름
+		- XML
+			- Extensible Markup Language
+			- 데이터를 정의하는 규칙을 제공하는 마크업 언어.
+			- 마크업언어
+				- 태그를 이용해 문서나 데이터의 구조를 명기하는 언어
+			- 표준기술
+				- WSDL
+					- Web Service Description Language
+					- 서비스 제공자와 서비스 사용자간 웹서비스 파라미터의 이름, 서비스가 위치한 URL, 웹서비스 호출에 관한 정보 기록 표준
+				- UDDI
+					- Universal Description, Discovery, Integration
+					- 서비스 제공자가 웹서비스 등록하고 서비스 사용자가 웹서비스 검색하기 위한 레지스트리
+				- SOAP
+					- Simple Object Access Protocol
+					- XML 기반 메시지 표준. 서비스 사용자가 서비스 제공자에 의해 노출된 웹서비스 호출하고 결과 받기 위한 표준 프로토콜
+		- 전자입찰
+			- 오프라인 입찰을 인터넷에서 처리하는 시스템. 견적 제출 시 전자서명된 암호문서를 관리하고 전자서명을 검증
+- 정보보안일반 
+	- 목표
+		- 기밀성
+			- 인가 사용자만 정보 접근, 비인가 사용자 정보 비노출
+		- 무결성
+			- 인가 사용자만 정보 변경 가능하며, 외부 요인에 의해 손상되지 않을 것
+			- 데이터값과 실제값이 일치하는지 여부 확인
+		- 가용성
+			- 인가 사용자 시스템 자원 필요로 할 때 접근 가능
+	- 공격유형
+		- 변조
+			- 원래 데이터 조작, 소스 변경, 악성코드 실행, URL접속
+		- 가로채기
+			- 네트워크 상 전송 데이터 복사, 열람. 수동적(sniffing)
+		- 차단
+			- 정상적 서비스 방해
+			- Dos, 프로세스 자원 고갈 공격
+		- 위조
+			- 송신되는 메시지 변조 사용자 속임
+	- 대책
+		- 구체성
+			- 일반통제
+				- 소프트웨어 생명주기 통제
+				- 직무분리, 시스템개발, 논리/물리 보안, 하드웨어 통제, 비상계획 수립
+			- 응용통제
+				- 트랜젝션, 데이터 무결성 확보 위한 통제
+				- 입력, 처리, 출력 통제
+		- 통제시점
+			- 예방통제
+				- 능동적 통제로 문제점 사전 식별해 통제 수행
+					- 물리적 접근통제
+						- 승인 못받은 사용자 정보 접근 금지
+					- 논리적 접근 통제
+						- 인증 못받은 사용자 정보 접근 금지
+			- 탐지통제
+				- 발생 사건 식별 통제
+				- CCTV, 보안감사, 감사로그, 침입탐지, 경보
+			- 교정통제
+				- 발생 사건 교정, 탐지된 위협과 취약점에 대응
+				- 백신 소프트웨어
+- 암호화
+	- 사용자 인증
+		- 지식기반인증
+			- 패스워드
+				- 해시함수로 암호화 수행
+			- 공격기법
+				- 무차별공격, 사전공격, 트로이목마, 사회공학, 스니핑
+		- 소유기반인증
+			- OTP, 스마트카드
+		- 존재기반인증
+			- 홍채
+			- FRR(False reject rate), FAR(False Acceptance Rate)
+		- 행동기반인증
+			- 서명, 걸음걸이
+		- 2 Factor 인증
+			- 인증방식 2가지 동시 사용 인증
+	- 커버로스 인증
+		- 중앙집중형 사용자인증 프로토콜(RFC1510), 윈도우 기본 인증 프로토콜
+		- 특징
+			- 대칭키 기반
+			- 클라이언트와 서버의 응용프로그램 설계
+			- 사용자 등록 과정에서 키 협상절차 진행
+			- 무차별 대입 암호화 공격 가능
+		- 구성요소
+			- KDC
+				- key distribution center
+				- 사용자, 서비스 암호화키 유지, 인증 서비스 제공, 세션키 생성 및 분배
+			- AS
+				- Authentication Service
+				- 실질적 인증 수행
+			- Principal
+				- 프로토콜 사용 모든 실제
+			- TGS
+				- Ticket Granting Service
+				- 티켓 만들고 세션키, 티켓 분배
+			- Ticket
+				- 인증토큰
+	- 접근통제
+		- 주체에 대한 객체의 접근을 통제
+			- 비인가 접근 감지
+			- 객체 기밀성, 무결성, 가용성 보장
+		- 접근
+			- 식별 - 인증 - 인가
+				- 식별 : 사람, 객체 유일성 확인 절차
+				- 인증 : Log-on정보 확인 보안 절차
+				- 인가 : 권한 유무 판별 및 권한 부여
+		- 기술
+			- MAC
+				- Mandatory Access Control
+				- 강제적 접근 통제, 오직 관리자에 의해 권한, 자원 할당
+				- 관리자로부터 권한 부여받은 목록 Security lable 에 작성
+			- DAC
+				- Discretinary Access Control
+				- 임의적 접근 통제, 신분 기반
+				- 자원에 대한 접근을 객체 소유자가 권한 부여
+			- RBAC
+				- Role Based Access Control
+				- 역할 기반 접근 통제
+				- 관리자는 사용자에게 권리와 권한이 정의된 역할을 부여해 이를 기반으로 권한 할당 관리
+		- 방법
+			- Capability list
+				- 한 User가 File들에 대해 가진 권한을 할당
+			- Access Control List
+				- 한 File에 대해 User들이 가진 권한을 할당
+		- 모델
+			- Bell-lapadula
+				- 유출 통제에 집중, 개인과 정보에 대해 등급 부여 모형
+				- 기밀성
+			- Biba
+				- 은닉채널 방지해 객체의 일관성 보호
+				- 무결성
+			- clark and Wilson
+				- Application 보안 요구사항 다룸, 인가된 사용자에 의한 변조방지
+				- 상업용 무결성
+			- 만리장성 모델
+				- 서로 상충관계 객체간 정보 접근 통제, 충돌을 야기하는 정보 흐름이 없음.
+				- 상업용 기밀성
+	- 키 분배
+		- 대칭키 암호화
+			- 키 교환 알고리즘 중요도 높음
+			- 속도 빠름
+			- 종류
+				- 스트림암호
+					- RC4, SEAL, OTP
+				- 블럭암호
+					- Feistel
+						- DES, 3DES, SEED
+					- SPN
+						- AES, IDEA, ARIA
+		- 공개키 암호화
+			- 키 저장문제 해결
+			- 부인방지
+			- 종류
+				- 소인수분해
+					- Rabin
+					- RSA
+						- 전사적 공격, 수학적 공격, 시간적 공격으로 공격가능
+						- 안정성 보장받기 위해 소수 p, q 조건과 공개키/비밀키 조건 등 필요
+				- 이산대수
+					- EIGamal
+					- KCDSA
+					- DSS
+					- Schnorr
+					- Diffie Hellman
+				- 타원곡선
+					- ECC
+					- ECDSA
+		- Feistel
+			- round function의 반복. 평문을 재배열해 K0, K1, .. ,Kn 키와 조합한 후 되돌리는 구조. 
+			- 역추적가능, 암호화/복호화 키 동일
+			- 블럭길이 64bit 이상, 키 길이 64bit 이상, 라운드 16회 이상 권장.
+		- SPN
+			- Substitution Permutation Network. 치환층과 재배열층으로 혼돈과 확산 제공.
+			- 역추적불가능, 암호화/복호화 다름. 병렬연산이 가능.
+		
+					
+		- 전자서명
+			- 서명자가 해당 전자문서에 서명했음을 나타내기 위해 전자문서에 첨부되거나 논리적으로 결합된 전자적 형태의 정보
+			- 고유성 인증, 무결성/추적성 확보
+			- 특징
+				- 위조불가
+				- 변경불가
+				- 재사용불가
+					- 서명을 타 문서 서명으로 재사용 불가
+				- 부인방지
+					- 서명자는 서명 사실 부인 불가능
+				- 서명자 인증
+					- 공개키로 서명인 검증 가능
+			- 절차
+				- 내용 해쉬 > 개인키 암호화, 전자서명 > 내용 해쉬, 공개키 복호화해 비교
+				
+		- PKI
+			- Public Key Infrastructure
+			- 공개키 암호 방식을 바탕으로 디지털 인증서 활용하는 SW, HW, User, 정책, 제도 총칭
+			- 은행 등에서 쓰는 공인인증 구조로 공인인증서로 인증받는 구조
+			- 기능
+				- 인증
+				- 기밀성
+					- 송수신정보 암호화
+				- 무결성
+					- 송수신정보 위조불가 보장
+				- 부인봉쇄
+					- 송수신사실 부인불가
+				- 접근제어
+				- 키관리
+			- 구성
+				- 인증기관
+					- CA, Certification Authority
+						-  손상시 복구 불가능, 재발급만 가능
+					- 인증정책수립, 인증서관리
+				- 등록기관
+					- RA, Registration Authority
+					- 신원확인, CA 인증서 발급 요청
+				- TA(Trusted Authority)
+					- 사전에 임의의 두 사용자가 비밀경로를 통해 임의키를 선택해 전달
+					- 네트워크상 모든 사용자와 필요할 때마다 사용하는 키 공유 방법
+					- 사용자 많으면 키 관리 까다로움
+				- 인증서 암호/키 관리
+					- CRL
+						- Ceriticiate Revocation List
+						- 인증서 폐기 목록
+					- Directory
+						- 인증서, 암호키 저장 및 관리
+				- 인증도구
+					- 암호키
+						- 개인키, 공개키
+					- X.509
+						- CA가 발행하는 인증서 기반 공개키 인증서 표준 포맷
+						- 내용
+							- 인증서 버전, 인증서 고유번호, 발급자 서명, 발급자 정보, 인증서 유효기간, 주체 정보, 공개키, 주체키
+				- OCSP
+					- Online Certificate Status Protocol
+					- 은행 발급 인증서 증권회사에서 인증받기 위해 기관 간 상호 인증 프로토콜
+					- 특징
+						- 실시간 인증서의 상태 프로토콜 인증서의 유효성 검증
+						- 비용 없이 사용 가능
+						- 서버로부터 인증서상태 전달, 폐지시 확인가능
+			- WPKI
+				- Wireless Public Key Infrastructure
+				- 무선 사용자인증 구조. 열악한 메모리, CPU제약 극복 목적.
+				- 인증서 유효성 검사방법
+					- SLC
+					- OOSP
+				- 암호화
+					- ECC
+- 암호학
+	- 암호화기법
+		- 치환
+			- 혼돈, 문자열을 다른 문자열로 이동하며 교체
+		- 전치, 순열
+			- 확산, 문자의 순서를 바꿈
+		- 대칭키, 비대칭키 암호화
+		- 양자암호
+	- 정보이론
+		- 혼돈
+			- 암호문과 평문과의 상관관계 숨김
+			- substitution, 치환으로 구현
+				- monoa -> 31210
+		- 확산
+			- 통계적 성질을 암호문 전반에 퍼뜨려 숨김
+			- permutation, 재배열(전치)로 구현
+				- monoa -> oamno
+	- 대칭키암호화
+		- 스트림암호화
+			- 데이터흐름을 순차적으로 처리해나가는 암호알고리즘
+			- 비트/바이트 단위 암호화, 고속 암호화
+			- RC4, SEAL, OTP
+		- 블록암호화
+			- 평문을 일정한 크기의 블럭으로 잘라낸 후 암호화 알고리즘 적용해 암호화
+			- 고정된 입출력블록 변환 알고리즘
+			- Feistel/SPN 구조
+			- 기법
+				- ECB(Electronic Code Book)
+				- CBC(Cipher Block Chain)
+				- CFB(Cipher FeedBack)
+					- 초기화 벡터를 암호화한 값과 첫번째 평문블록을 XOR해서 암호문 블록 생성. 다시 암호화한 값과 다음 평문블록을 XOR해서 암호문 블록 반복 생성
+					- 암호화에선 특정 입력이 이후 영향 미치게 되며, 복호화에선 특정 암호문의 오류가 계속적으로 이후에 영향을 미치지 않는다는 특징.
+					- 암호화는 순차적 처리해야 하며 복호화는 병렬처리 가능.
+				- OFB(Output FeedBack)
+				- CTR(CounTRer)
+			- 알고리즘
+				- DES(Data Encryption Standard)
+					- 미국/국제 표준 알고리즘.
+					- brute force로 해석가능, 쉽게 해독되기에 2중, 3중 암호 사용을 권장.
+					- 구조
+						- 64bit > 64bit, 2개의 전치와 16개의 feistel 라운드함수로 구성
+						- 오류검출 비트 제거한 실질 암호는 56비트. 
+				- IDEA(International Data Encryption Algorithm)
+					- 스위스 개발, 전자우편 PGP 방식 사용
+					- 128bit > 64bit
+					- HW/SW 구현용이, DES 2배 빠름
+				- RC5(Ron&s code 5)
+					- DES 10배 빠름
+				- AES(Advanced Encryption Standard)
+					- NIST
+					- 128/192/256bit
+				- SEED
+					- KISA/ETRI
+					- 128bit
+		- 암호분석방법
+			- 암호문 단독 공격
+				- 암호문만으로 공격. 통계적 성질, 문장특성 추정
+			- 알려진 평문 공격
+				- 암호문에 대응하는 일부 평문 가용
+			- 선택 평문 공격
+				- 평문 선택 시 대응되는 암호문을 얻을 수 있는 상태에서 공격
+			- 선택 암호문 공격
+				- 암호문 선택 시 대응되는 평문을 얻을 수 있는 상태에서의 공격
+	- 해쉬
+		- 복호화 불가능 일방향 암호화. 무결성만 지원.
+		- 256bit 이상 사용
+		- 조건
+			- 압축
+				- 여러 길이를 고정된 길이 출력값으로 변환
+			- 일방향
+				- 역방향 계산 불가능
+			- 효율성
+				- 시간복잡도 O(1)
+			- 충돌회피
+				- h(M1) = h(M2) 계산불가능
+				- separate chaining, open addressing
+			- 약충돌회피
+				- h(M1) = h(M2) M1!=M2 계산불가능
+- 5. 정보보호관리
+	- ISMS
+		- Information Security Management System
+		- 정보보호 관리시스템. 정보보호를 위한 일련의 조치와 활동이 인증기준에 적합함을 인터넷진흥원 또는 인터넷 인증기관이 증명.
+		- ISMS-P
+			- Personal. 
+			- ISMS + 개인정보 처리 단계별 요구사항에 대한 인증
+		- 부서
+			- 과기정통부
+				- 정보보호 고시
+			- 방송통신위원회, 행정안전부
+				- 개인정보보호 고시
+		- 의무인증대상자 (망직매병)
+			- 정보통신망서비스 제공자
+				- 인터넷 접속, 인터넷 전화
+			- 직접 정보통신 시설 사업자
+				- 서버 호스팅, 코로케이션
+			- 정보통신서비스 매출액 100억 또는 이용자수 100만명 이상 사업자
+			- 연간 매출액 및 세입 등 1500억 이상 기업 중 상급 종합병원, 1만 이상 재학생이 있는 학교
+				- 미 인증시 3000 이하 과태료
+	- 정보보호
+		- 거버넌스 체계
+			- Security PDCA(Plan Do Check Act)
+				- 관리체계기반 마련
+					- 상위수준 정보보호 정책수립. 정보보호 관리체계 인증 범위 확정. 모든 정보자산 식별
+				- 위험관리
+					- 자산 식별, 위협, 취약점 점건, 위험평가 수행, 보호대책 계획 수립
+				- 관리체계 운영
+					- 정보보호 관리체계 수립 이행 단계, 보호대책 구현, 보호대책 공유 운영현황 관리
+				- 관리체계 점검 및 개선
+					- 매년 1회 이상 관리체계 점검 및 개선
+		- 위험
+			- 관리	
+				- 위험 식별, 분석, 평가, 보호대책 수립해 조직 손실 최소화하는 활동
+				- 구성
+					- 자산, 위험, 위협, 취약점
+					- 위협
+						- 손실 가능성을 제공하는 환경.
+						- ex. 취약점. 해커의 존재. 중요 자산.
+					- 위험
+						- 손실 가능성.
+						- ex. 정보유출, 해커의 공격, 탈취 시도.
+						- 자산 X 위협 X 취약점
+			- 분석
+				- 위험분석 및 평가 방법론 과학적/정형적 과정
+				- 접근 방식
+					- 기준선 접근법, 복합적 접근법, 전문가 판단, 상세위험분석
+				- 정량적 위험분석
+					- 연간기대손실 = 위험발생확률 X 손실크기
+					- 수학공식접근법, 확률분포추정법, 확률지배, 몬테카를로, 과거자료분석
+				- 정성적 위험분석
+					- 위험 우선순위 정하기
+					- 델파이법, 시나리오법, 순위결정법, 질문서법
+			- 대응전략
+				- 수용
+					- 위험수용, 비용감수
+				- 감소
+					- 감소 대책구현
+				- 회피
+					- 사업포기
+				- 전가
+					- 제3자 이전
+		- 대책구현
+			- 관리체계수립
+				- 관리체계기반마련, 위험관리, 관리체계운영, 관리체계 점검 및 개선
+			- 보호대책
+				- 정책/조직 자산관리, 인적보안, 외부자보안, 물리보안, 인증/권한 관리, 접근통제, 암호화적용, 정보시스템도입 및 개발보안
+				- 시스템 및 서비스 운영관리, 시스템 및 서비스 보안관리, 사고 예방 및 대응, 재해복구
+			- 보호처리
+				- 개인정보 수집 시 보호조치, 개인정보 보유 및 이용 시 보호조치, 개인정보 제공 시 보호조치, 개인정보 파기 시 보호조치, 정보주체 권리보호
+		- 재난복구계획
+			- BCP
+				- Business Continuity Planning
+				- 상시에 기업의 존립 유지를 위한 프로세스를 정의한 복구 절차
+				- 업무의 중단상황 그후 업무 기능 및 프로세스 지원
+				- 절차
+					- 연속성 계획 정책 선언서 개발
+					- BIA 수행
+					- 예방통제 식별
+					- 복구전략 개발
+					- 연속성 계획 개발
+					- 계획 / 테스트 / 훈련
+					- 계획 유지관리
+			- DRP
+				- Disaster Recovery Planning
+				- 비상 환경에서 기업 존립 위한 필수적 IT자원 복구 절차
+				- 사이트 목표 시스템, 응용 프로그램, 컴퓨터 설비의 운영 재개 같은 IT 중심 계획
+				- 형태
+					- 업무
+						- BCP
+							- Business Continuity Plan
+							- 복구 필수 업무 운영 유지 절차
+						- BRP
+							- Business Recovery Plan
+							- 재해 후 즉시 업무 운영 복구 절차
+						- COOP
+							- Continuity Of Operation Plan
+							- 필수기능 대체 사이트에서 유지 절차
+					- IT
+						- DRP
+							- Disaster Recovery Plan
+							- 대체 사이트 복구 능력 촉진 절차
+						- IT contengency plan
+						- 응용시스템 복구 절차
+							
+					- 보안
+						- CIRP
+							- Cyber Incident Response Plan
+							- 악성 사이버 사건 확산 방지
+					- 인명자산
+						- OEP
+							- Occupant Emergency Plan
+							- 인명 최소화
+					- 신뢰
+						- CCP
+							- Crisis Communication Plan
+							- 현 상황 개선, 기관 및 주주에게 알림
+		- 재해 복구 시스템 종류
+			- Mirror
+				- 분단위
+			- Hot
+				- 시간단위
+			- Warm
+				- 일단위
+			- Cold
+				- 주단위
+		- 시스템 인증
+			- 정보보호 시스템 제품을 객관적으로 평가해 신뢰성 향상
+			- TCSEC
+				- 독립적 시스템 평가
+			- ITSEC
+				- OS, 장치 평가
+			- CC
+				- CCRA 가입국간 상호인증
+			- GDPR
+				- EU 개인 데이터 보호
+	- 클라우드 컴퓨팅 보안 인증
+		- 클라우드 서비스 종류
+			- IaaS
+				- 컴퓨팅자원, 스토리지 등 정보시스템 인프라 제공
+			- SaaS
+				- 앱 제공
+			- PaaS
+				- 클라우드 개발 플랫폼
+			- SECaaS
+				- 클라우드 기반 보안 서비스
+	- 개인정보영향평가제도
+		- 제35조(개인정보 영향평가 대상)
+			1. 민감정보 개인정보 파일 5만명 이상
+			2. 내/외부 공공기관 개인정보파일 연계 50만명 이상
+			3. 개인정보파일 100만명 이상
+	- ISO 27000 표준
+		- ISO 27001
+			- 진흥원에서 개발한 ISMS 인증
+			- ISMS 수립, 구현, 운영, 모니터링, 검토, 유지 및 개선
+			- 욕심 - 못하는상황 - 힘 들어감 - 인정을 안함 - 합리화함
+- 정보보안법규
+	- OECD 개인정보 8원칙
+		- 개인정보의 일반원칙으로 인정
+			- 수집제한원칙, 정보의 정확성 원칙, 목적 명확화 원칙, 이용 제한 원칙, 처리방침 공개 원칙, 정보주체의 참여의 원칙, 책임의 원칙
+	- 정보통신망법 적용대상
+		- 정보통신서비스 제공자
+		- 정보통신서비스 제공자로부터 이용자의 개인정보를 제공받은자
+		- 개인정보의 취급 업무를 위탁받은자
+		- 방송사업자
+		- ex. 포털, 병원, 학교 등 360만 사업자, 부처, 지자체, 학교 등 20만 공공기관
+	- 제21조(개인정보의파기)
+		- 개인정보 처리자는 보유기간의 경과, 개인정보의 처리 목적 달성 등 그 개인정보가 불필요하게 되었을 때에는 지체없이 그 개인정보를 파기하여야한다.
+	- 제24조의2(주민등록번호 처리의 제한)
+		- 주민등록처리가 불가피한 경우 행정안전부령으로부터 정하여 처리할 수 있다.
+	- 제30조(개인정보 처리방침의 수립 및 공개)
+		- 개인정보의 처리목적
+		- 개인정보 처리 및 보유기간
+		- 개인정보의 제3자 제공에 관한 사항
+		- 개인정보처리의 위탁에 관한 사항
+		- 정보주체와 법정대리인의 권리/의무 및 그 행사방법에 관한 사항
+		- 제31조에 따른 개인정보보호책임자의 성명 또는 개인정보보호업무 및 관련 고충 사항을 처리하는 부서의 명칭과 전화번호
+		- 인터넷 접속정보파일 등 개인정보를 자동으로 수집하는 장치의 설치/운영 및 그 거부에 관한 사항
+	- 제33조(개인정보 영향평가)
+		- 처리하는 개인정보 수
+		- 개인정보의 제3자 제공여부
+		- 정보주체의 권리를 해할 가능성 및 그 위험 정도
+	- 정보통신기반 보호법
+		- 제9조(정보보호책임자의 지정 등)
+		
+		
+					
+					
+					
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+					
+					
+					
